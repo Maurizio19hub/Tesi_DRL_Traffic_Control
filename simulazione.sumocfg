@@ -1,0 +1,10 @@
+<configuration>
+    <input>
+        <net-file value="incrocio6.net.xml"/>
+        <route-files value="veicoli.rou.xml,pedoni.rou.xml"/>
+    </input>
+    <time>
+        <begin value="0"/>
+        <end value="3600"/> <!-- Durata di un'ora -->
+    </time>
+</configuration>
