@@ -7,7 +7,7 @@ import subprocess
 
 class MyEnv(gym.Env):
 	def __init__(self):
-		super(self).__init__()
+		super().__init__()
 		
 		#Fasi semaforiche
 		self.action_space = spaces.Discrete(2) # keep / change
@@ -25,12 +25,12 @@ class MyEnv(gym.Env):
 
 		#Dizionario delle lane
 		self.branches = {
-			"nord" : [["nord_in_1", "nord_in2_1", "nord_in3_1"],["nord_in_2", "nord_in2_2", "nord_in3_2"]],
-			"sud" : [["sud_in_1", "sud_in2_1", "sud_in3_1", "sud_in4_1"],["sud_in_2", "sud_in2_2", "sud_in3_2", "sud_in4_2"]],
-			"est" : [["est_in_1"],["est_in_2"]],
-			"ovest" : [["ovest_in_1"],["ovest_in_2"]]
+			"nord" : ["nord_in", "nord_in2", "nord_in3"],
+			"sud" : ["sud_in", "sud_in2", "sud_in3", "sud_in4"],
+			"est" : ["est_in"],
+			"ovest" : ["ovest_in"]
 		}
-		self.branch_lengths = {}
+		#self.branch_lengths = {}
 
 		self.max_speed = 13.89 # massima velocità sulle strade, corrisponde a limite di 5O
 
@@ -39,9 +39,10 @@ class MyEnv(gym.Env):
 
 		self.time_since_last_change = 0
 		self.current_phase_index = 0
-		self.green_phases = [0, 2]
+		self.green_phases = [0, 3]
 		self.min_green_duration = 10
-		self.yellow_duration = 3
+		self.yellow_duration = 6
+		self.clearance_duration = 5
 		self.tls_id = "tls_1"
 		self.max_steps = 1000
 		self.current_step = 0
@@ -50,24 +51,28 @@ class MyEnv(gym.Env):
 	#Resetta ambiente per nuova iterazione (episodio)
 	##Cambiare il seed, o impostarlo passandolo alla funzione
 	def reset(self, seed = None, options = None):
+		super().reset(seed=seed)
 		self.current_step = 0
+		self.time_since_last_change = 0
+		self.current_phase_index = 0
 		self.episode += 1
 		sumo_seed = seed if seed is not None else self.episode
-
+		
+		'''
 		#Generazione percorsi veicoli con nuovo seed
 		subprocess.run([
 			"python", os.path.join(os.environ['SUMO_HOME'], 'tools', 'randomTrips.py'),
-			"-n", "incrocio.net.xml",
+			"-n", "incrocio6.net.xml",
 			"-e", "3600",
 			"-p", "1.5",
 			"-r", "veicoli.rou.xml", # Output file per veicoli
 			"--seed", str(sumo_seed)
 		], check=True, stdout=subprocess.DEVNULL)
-
+		'''
 		# Generazione percorsi Pedoni con nuovo seed
 		subprocess.run([
 			"python", os.path.join(os.environ['SUMO_HOME'], 'tools', 'randomTrips.py'),
-			"-n", "incrocio.net.xml",
+			"-n", "incrocio6.net.xml",
 			"-e", "3600",
 			"-p", "3.0",
 			"--persontrips",
@@ -77,10 +82,12 @@ class MyEnv(gym.Env):
 
 		
 		sumo_cmd = [
-			"sumo", "-c", self.sumo_cfg, # sumo-gui se vogli la modalità grafica
+			"sumo-gui", "-c", self.sumo_cfg, # sumo-gui se vogli la modalità grafica
 			"--seed", str(sumo_seed),
 			"--waiting-time-memory", "1000", # serve per manternere memoria del tempo di attesa del veicolo per 1000s
-			"--no-step-log", "true" # non riempie terminale
+			"--no-step-log", "true", # non riempie terminale
+			"--start", "true",  # avvia automaticamente senza premere play (sumo-gui)
+			"--delay", "500"  # 100ms tra ogni step = velocità normal
 		]
 
 		if traci.isLoaded(): traci.close() # chiude le istanze già avviate se esistono 
@@ -97,36 +104,32 @@ class MyEnv(gym.Env):
 			total_vehicles = 0
 			weighted_speed = 0.0
 			total_waiting = 0.0
-			for i in range(len(edge_ids[0])):
+			for edge in edge_ids:
 
 				# ---CODE---
-				total_halting += traci.edge.getLastStepHaltingNumber(edge_ids[0][i])
-				total_halting += traci.edge.getLastStepHaltingNumber(edge_ids[1][i])
-				total_length += traci.lane.getLength(edge_ids[0][i])
+				total_halting += traci.edge.getLastStepHaltingNumber(edge)
+				total_length += traci.lane.getLength(edge + "_1")
 
 
 				# ---VELOCITÀ MEDIA---
 				# serve per il calcolo del tempo medio di attraversamento
-				vehicles_lane_1 = traci.edge.getLastStepVehicleNumber(edge_ids[0][i])
-				vehicles_lane_2 = traci.edge.getLastStepVehicleNumber(edge_ids[1][i])
-				speed_lane_1 = traci.edge.getLastStepMeanSpeed(edge_ids[0][i])
-				speed_lane_2 = traci.edge.getLastStepMeanSpeed(edge_ids[1][i])
-				weighted_speed += vehicles_lane_1 * speed_lane_1 + vehicles_lane_1 * speed_lane_2
-				total_vehicles += vehicles_lane_1 + vehicles_lane_2
-
+				vehicles = traci.edge.getLastStepVehicleNumber(edge)
+				speed = traci.edge.getLastStepMeanSpeed(edge)
+				weighted_speed += vehicles * speed
+				total_vehicles += vehicles
 				# ---TEMPO DI ATTESA---
-				total_waiting += traci.edge.getWaitingTime(edge_ids[0][i]) + traci.edge.getWaitingTime(edge_ids[1][i])
+				total_waiting += traci.edge.getWaitingTime(edge)
 
 			
 			queue_meters = total_halting * 5 
-			queue_norm = min(queue_meters / total_length, 1.0)
+			queue_norm = min(queue_meters / total_length*2, 1.0)
 
 			if total_vehicles > 0:
 				mean_speed = weighted_speed / total_vehicles
 			else:
 				mean_speed = self.max_speed
 
-			speed_norm = mean_speed / self.max_speed
+			speed_norm = min(mean_speed / self.max_speed, 1.0)
 
 			waiting_norm = min(total_waiting / self.max_waiting_time, 1.0)
 
@@ -152,9 +155,16 @@ class MyEnv(gym.Env):
 	
 	def step(self, action):
 		if action == 1 and self.time_since_last_change > self.min_green_duration:
-			yellow_phase = self.green_phases[self.current_phase_index] + 1
-			traci.trafficlight.setPhase(yellow_phase)
 
+			clearance_phase = self.green_phases[self.current_phase_index] + 1
+			traci.trafficlight.setPhase(self.tls_id, clearance_phase)
+			for _ in range(self.clearance_duration):
+				traci.simulationStep()
+				self.current_step += 1
+				self.time_since_last_change += 1
+
+			yellow_phase = self.green_phases[self.current_phase_index] + 2
+			traci.trafficlight.setPhase(self.tls_id, yellow_phase)
 			for _ in range(self.yellow_duration):
 				traci.simulationStep()
 				self.current_step += 1
@@ -189,5 +199,9 @@ class MyEnv(gym.Env):
 
 		return obs, reward, terminated, truncated, info
 	
-	def _get_reward():
+	def _get_reward(self):
 		pass
+
+	def close(self):
+		if traci.isLoaded():
+			traci.close()
