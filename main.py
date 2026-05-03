@@ -15,8 +15,7 @@ class MyEnv(gym.Env):
 		#Dati presi dall'Enviroment (normalizzati):
 		##Lunghezza code veicoli
 		##Numero di pedoni
-		##shape=(8,) indica solo 8 dati per le 4 code, 8 per gli attraversamenti pedonali, 8 per le walking areas	
-		self.observation_space = spaces.Box(low = 0, high = 1.0, shape=(24,), dtype = np.float32)
+		self.observation_space = spaces.Box(low = 0, high = 1.0, shape=(15,), dtype = np.float32)
 
 		#File di configurazione SUMO
 		self.sumo_cfg = "simulazione.sumocfg"
@@ -37,11 +36,21 @@ class MyEnv(gym.Env):
 
 		self.max_waiting_time = 300.0
 		self.max_pedestrians = 20
+
+		self.time_since_last_change = 0
+		self.current_phase_index = 0
+		self.green_phases = [0, 2]
+		self.min_green_duration = 10
+		self.yellow_duration = 3
+		self.tls_id = "tls_1"
+		self.max_steps = 1000
+		self.current_step = 0
 	
 	
 	#Resetta ambiente per nuova iterazione (episodio)
 	##Cambiare il seed, o impostarlo passandolo alla funzione
 	def reset(self, seed = None, options = None):
+		self.current_step = 0
 		self.episode += 1
 		sumo_seed = seed if seed is not None else self.episode
 
@@ -131,3 +140,54 @@ class MyEnv(gym.Env):
 		
 		ped_norm = min(ped_waiting / self.max_pedestrians, 1.0)
 		obs.append(ped_norm)
+
+		# ---TEMPO DALL'ULTIMO CAMBIO FASE---
+		time_norm = min(self.time_since_last_change / self.min_green_duration, 1)
+		obs.append(time_norm)
+
+		# ---FASE CORRENTE---
+		obs.append(self.current_phase_index)
+
+		return np.array(obs, dtype=np.float32)
+	
+	def step(self, action):
+		if action == 1 and self.time_since_last_change > self.min_green_duration:
+			yellow_phase = self.green_phases[self.current_phase_index] + 1
+			traci.trafficlight.setPhase(yellow_phase)
+
+			for _ in range(self.yellow_duration):
+				traci.simulationStep()
+				self.current_step += 1
+				self.time_since_last_change += 1
+			
+			self.current_phase_index = 1 - self.current_phase_index
+			traci.trafficlight.setPhase(
+				self.tls_id,
+				self.green_phases[self.current_phase_index]
+			)
+			self.time_since_last_change = 0
+		else:
+			traci.simulationStep()
+			self.current_step += 1
+			self.time_since_last_change += 1
+
+		# ---CALCOLO OSSERVAZIONE E REWARD---
+		obs = self._get_observation()
+		reward = self._get_reward()
+
+		# ---CONTROLLO SE EPISODIO È TERMINATO---
+		terminated = self.current_step >= self.max_steps
+		truncated = False
+		
+		info = {
+			"step": self.current_step,
+			"phase": self.current_phase_index,
+			"time_since_change": self.time_since_last_change
+		}
+
+		if terminated: traci.close()
+
+		return obs, reward, terminated, truncated, info
+	
+	def _get_reward():
+		pass
