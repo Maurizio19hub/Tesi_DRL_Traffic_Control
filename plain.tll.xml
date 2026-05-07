@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-05-07T20:37:38.352211+01:00 by Eclipse SUMO netconvert v1_26_0+0485-c820d16e9df
+<netconvertConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <sumo-net-file value="incrocio3.net.xml"/>
+    </input>
+
+    <output>
+        <plain-output-prefix value="plain"/>
+        <output.original-names value="true"/>
+    </output>
+
+    <processing>
+        <geometry.min-radius.fix.railways value="false"/>
+        <geometry.avoid-overlap value="false"/>
+        <geometry.max-grade.fix value="false"/>
+        <offset.disable-normalization value="true"/>
+        <lefthand value="0"/>
+    </processing>
+
+    <junctions>
+        <no-turnarounds value="true"/>
+        <junctions.corner-detail value="5"/>
+        <junctions.limit-turn-speed value="5.50"/>
+        <rectangular-lane-cut value="0"/>
+    </junctions>
+
+    <pedestrian>
+        <walkingareas value="0"/>
+    </pedestrian>
+
+</netconvertConfiguration>
+-->
+
+<tlLogics version="1.20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/tllogic_file.xsd">
+    <tlLogic id="clusterJ10_J4_J5_J6_#3more" type="static" programID="0" offset="0">
+        <phase duration="34" state="gGGgrrrgGGgrrrrGrG"/>
+        <phase duration="5"  state="gGGgrrrgGGgrrrrrrr"/>
+        <phase duration="6"  state="yyyyrrryyyyrrrrrrr"/>
+        <phase duration="34" state="rrrrgGgrrrrgGgGrGr"/>
+        <phase duration="5"  state="rrrrgGgrrrrgGgrrrr"/>
+        <phase duration="6"  state="rrrryyyrrrryyyrrrr"/>
+    </tlLogic>
+
+    <connection from="est_in" to="nord_out" fromLane="1" toLane="1" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="0"/>
+    <connection from="est_in" to="ovest_out" fromLane="1" toLane="1" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="1"/>
+    <connection from="est_in" to="ovest_out" fromLane="2" toLane="2" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="2"/>
+    <connection from="est_in" to="sud_out" fromLane="2" toLane="1" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="3"/>
+    <connection from="nord_in" to="ovest_out" fromLane="1" toLane="1" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="11"/>
+    <connection from="nord_in" to="sud_out" fromLane="1" toLane="1" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="12"/>
+    <connection from="nord_in" to="est_out" fromLane="1" toLane="2" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="13"/>
+    <connection from="ovest_in" to="sud_out" fromLane="1" toLane="1" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="7"/>
+    <connection from="ovest_in" to="est_out" fromLane="1" toLane="1" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="8"/>
+    <connection from="ovest_in" to="est_out" fromLane="2" toLane="2" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="9"/>
+    <connection from="ovest_in" to="nord_out" fromLane="2" toLane="1" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="10"/>
+    <connection from="sud_in" to="est_out" fromLane="1" toLane="1" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="4"/>
+    <connection from="sud_in" to="nord_out" fromLane="1" toLane="1" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="5"/>
+    <connection from="sud_in" to="ovest_out" fromLane="1" toLane="2" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="6"/>
+</tlLogics>

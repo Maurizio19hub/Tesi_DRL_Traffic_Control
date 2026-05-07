@@ -41,7 +41,7 @@ class MyEnv(gym.Env):
 		self.current_phase_index = 0
 		self.green_phases = [0, 3]
 		self.min_green_duration = 10
-		self.yellow_duration = 6
+		self.yellow_duration = 3
 		self.clearance_duration = 5
 		self.tls_id = "tls_1"
 		self.max_steps = 1000
@@ -87,7 +87,7 @@ class MyEnv(gym.Env):
 			"--waiting-time-memory", "1000", # serve per manternere memoria del tempo di attesa del veicolo per 1000s
 			"--no-step-log", "true", # non riempie terminale
 			"--start", "true",  # avvia automaticamente senza premere play (sumo-gui)
-			"--delay", "500"  # 100ms tra ogni step = velocità normal
+			"--delay", "100"  # 100ms tra ogni step = velocità normal
 		]
 
 		if traci.isLoaded(): traci.close() # chiude le istanze già avviate se esistono 
@@ -121,7 +121,7 @@ class MyEnv(gym.Env):
 				total_waiting += traci.edge.getWaitingTime(edge)
 
 			
-			queue_meters = total_halting * 5 
+			queue_meters = total_halting * 5 # liunghezza veicolo 
 			queue_norm = min(queue_meters / total_length*2, 1.0)
 
 			if total_vehicles > 0:
@@ -158,6 +158,7 @@ class MyEnv(gym.Env):
 
 			clearance_phase = self.green_phases[self.current_phase_index] + 1
 			traci.trafficlight.setPhase(self.tls_id, clearance_phase)
+			#Fase di clearance da rimuovere, anche da netedit
 			for _ in range(self.clearance_duration):
 				traci.simulationStep()
 				self.current_step += 1

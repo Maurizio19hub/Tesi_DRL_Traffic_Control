@@ -1,9 +1,17 @@
 # test_env.py
 from sumo_env import MyEnv
 import numpy as np
+from gymnasium.utils.env_checker import check_env
 
 env = MyEnv()
-
+'''
+# This will catch many common issues
+try:
+    check_env(env)
+    print("Environment passes all checks!")
+except Exception as e:
+    print(f"Environment has issues: {e}")
+'''
 # Test reset
 print("=== TEST RESET ===")
 obs, info = env.reset()
@@ -26,7 +34,7 @@ print(f"Terminated: {terminated}")
 print(f"Info: {info}")
 
 # Test step con azione 1
-for i in range(1, 20):
+for i in range(1, 20000):
     print(f"\n=== TEST STEP azione={i} ===")
     obs, reward, terminated, truncated, info = env.step(1)
     print(f"Obs: {obs}")
