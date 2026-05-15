@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2026-05-07T20:05:38.290530+01:00 by Eclipse SUMO netedit v1_26_0+0485-c820d16e9df
+<!-- generated on 2026-05-15T11:30:52.690607+01:00 by Eclipse SUMO netedit v1_26_0+0485-c820d16e9df
 <neteditConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/neteditConfiguration.xsd">
 
     <input>
@@ -171,7 +171,7 @@
         <lane id="sud_out_1" index="1" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="13.89" length="183.83" shape="312.42,817.96 314.76,808.82 327.81,759.62 339.32,724.59 353.72,678.21 367.20,647.92 369.10,643.64"/>
     </edge>
 
-    <tlLogic id="clusterJ10_J4_J5_J6_#3more" type="static" programID="0" offset="0">
+    <tlLogic id="tls_1" type="static" programID="0" offset="0">
         <phase duration="34" state="gGGgrrrgGGgrrrrGrG"/>
         <phase duration="5"  state="gGGgrrrgGGgrrrrrrr"/>
         <phase duration="6"  state="yyyyrrryyyyrrrrrrr"/>
@@ -216,20 +216,20 @@
     <junction id=":clusterJ10_J4_J5_J6_#3more_20_0" type="internal" x="303.88" y="833.30" incLanes=":clusterJ10_J4_J5_J6_#3more_11_0" intLanes=":clusterJ10_J4_J5_J6_#3more_1_0 :clusterJ10_J4_J5_J6_#3more_1_1 :clusterJ10_J4_J5_J6_#3more_6_0 :clusterJ10_J4_J5_J6_#3more_c2_0 :clusterJ10_J4_J5_J6_#3more_c3_0"/>
     <junction id=":clusterJ10_J4_J5_J6_#3more_21_0" type="internal" x="308.45" y="834.02" incLanes=":clusterJ10_J4_J5_J6_#3more_13_0 sud_in_1" intLanes=":clusterJ10_J4_J5_J6_#3more_1_0 :clusterJ10_J4_J5_J6_#3more_1_1 :clusterJ10_J4_J5_J6_#3more_3_0 :clusterJ10_J4_J5_J6_#3more_4_0 :clusterJ10_J4_J5_J6_#3more_5_0 :clusterJ10_J4_J5_J6_#3more_8_0 :clusterJ10_J4_J5_J6_#3more_8_1 :clusterJ10_J4_J5_J6_#3more_10_0 :clusterJ10_J4_J5_J6_#3more_c0_0 :clusterJ10_J4_J5_J6_#3more_c3_0"/>
 
-    <connection from="est_in" to="nord_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_0_0" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="0" dir="r" state="o"/>
-    <connection from="est_in" to="ovest_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_1_0" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="1" dir="s" state="o"/>
-    <connection from="est_in" to="ovest_out" fromLane="2" toLane="2" via=":clusterJ10_J4_J5_J6_#3more_1_1" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="2" dir="s" state="o"/>
-    <connection from="est_in" to="sud_out" fromLane="2" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_3_0" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="3" dir="l" state="o"/>
-    <connection from="nord_in" to="ovest_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_11_0" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="11" dir="r" state="o"/>
-    <connection from="nord_in" to="sud_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_12_0" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="12" dir="s" state="o"/>
-    <connection from="nord_in" to="est_out" fromLane="1" toLane="2" via=":clusterJ10_J4_J5_J6_#3more_13_0" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="13" dir="l" state="o"/>
-    <connection from="ovest_in" to="sud_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_7_0" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="7" dir="r" state="o"/>
-    <connection from="ovest_in" to="est_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_8_0" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="8" dir="s" state="o"/>
-    <connection from="ovest_in" to="est_out" fromLane="2" toLane="2" via=":clusterJ10_J4_J5_J6_#3more_8_1" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="9" dir="s" state="o"/>
-    <connection from="ovest_in" to="nord_out" fromLane="2" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_10_0" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="10" dir="l" state="o"/>
-    <connection from="sud_in" to="est_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_4_0" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="4" dir="r" state="o"/>
-    <connection from="sud_in" to="nord_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_5_0" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="5" dir="s" state="o"/>
-    <connection from="sud_in" to="ovest_out" fromLane="1" toLane="2" via=":clusterJ10_J4_J5_J6_#3more_6_0" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="6" dir="l" state="o"/>
+    <connection from="est_in" to="nord_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_0_0" tl="tls_1" linkIndex="0" dir="r" state="o"/>
+    <connection from="est_in" to="ovest_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_1_0" tl="tls_1" linkIndex="1" dir="s" state="o"/>
+    <connection from="est_in" to="ovest_out" fromLane="2" toLane="2" via=":clusterJ10_J4_J5_J6_#3more_1_1" tl="tls_1" linkIndex="2" dir="s" state="o"/>
+    <connection from="est_in" to="sud_out" fromLane="2" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_3_0" tl="tls_1" linkIndex="3" dir="l" state="o"/>
+    <connection from="nord_in" to="ovest_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_11_0" tl="tls_1" linkIndex="11" dir="r" state="o"/>
+    <connection from="nord_in" to="sud_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_12_0" tl="tls_1" linkIndex="12" dir="s" state="o"/>
+    <connection from="nord_in" to="est_out" fromLane="1" toLane="2" via=":clusterJ10_J4_J5_J6_#3more_13_0" tl="tls_1" linkIndex="13" dir="l" state="o"/>
+    <connection from="ovest_in" to="sud_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_7_0" tl="tls_1" linkIndex="7" dir="r" state="o"/>
+    <connection from="ovest_in" to="est_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_8_0" tl="tls_1" linkIndex="8" dir="s" state="o"/>
+    <connection from="ovest_in" to="est_out" fromLane="2" toLane="2" via=":clusterJ10_J4_J5_J6_#3more_8_1" tl="tls_1" linkIndex="9" dir="s" state="o"/>
+    <connection from="ovest_in" to="nord_out" fromLane="2" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_10_0" tl="tls_1" linkIndex="10" dir="l" state="o"/>
+    <connection from="sud_in" to="est_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_4_0" tl="tls_1" linkIndex="4" dir="r" state="o"/>
+    <connection from="sud_in" to="nord_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_5_0" tl="tls_1" linkIndex="5" dir="s" state="o"/>
+    <connection from="sud_in" to="ovest_out" fromLane="1" toLane="2" via=":clusterJ10_J4_J5_J6_#3more_6_0" tl="tls_1" linkIndex="6" dir="l" state="o"/>
 
     <connection from=":clusterJ10_J4_J5_J6_#3more_0" to="nord_out" fromLane="0" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_14_0" dir="r" state="m"/>
     <connection from=":clusterJ10_J4_J5_J6_#3more_14" to="nord_out" fromLane="0" toLane="1" dir="r" state="m"/>
@@ -262,16 +262,16 @@
     <connection from=":clusterJ10_J4_J5_J6_#3more_c1" to=":clusterJ10_J4_J5_J6_#3more_w1" fromLane="0" toLane="0" dir="s" state="M"/>
     <connection from=":clusterJ10_J4_J5_J6_#3more_c2" to=":clusterJ10_J4_J5_J6_#3more_w2" fromLane="0" toLane="0" dir="s" state="M"/>
     <connection from=":clusterJ10_J4_J5_J6_#3more_c3" to=":clusterJ10_J4_J5_J6_#3more_w3" fromLane="0" toLane="0" dir="s" state="M"/>
-    <connection from=":clusterJ10_J4_J5_J6_#3more_w0" to=":clusterJ10_J4_J5_J6_#3more_c3" fromLane="0" toLane="0" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="17" dir="s" state="M"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_w0" to=":clusterJ10_J4_J5_J6_#3more_c3" fromLane="0" toLane="0" tl="tls_1" linkIndex="17" dir="s" state="M"/>
     <connection from=":clusterJ10_J4_J5_J6_#3more_w0" to="nord_out" fromLane="0" toLane="0" dir="s" state="M"/>
     <connection from="est_in" to=":clusterJ10_J4_J5_J6_#3more_w0" fromLane="0" toLane="0" dir="s" state="M"/>
-    <connection from=":clusterJ10_J4_J5_J6_#3more_w1" to=":clusterJ10_J4_J5_J6_#3more_c0" fromLane="0" toLane="0" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="14" dir="s" state="M"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_w1" to=":clusterJ10_J4_J5_J6_#3more_c0" fromLane="0" toLane="0" tl="tls_1" linkIndex="14" dir="s" state="M"/>
     <connection from=":clusterJ10_J4_J5_J6_#3more_w1" to="est_out" fromLane="0" toLane="0" dir="s" state="M"/>
     <connection from="sud_in" to=":clusterJ10_J4_J5_J6_#3more_w1" fromLane="0" toLane="0" dir="s" state="M"/>
-    <connection from=":clusterJ10_J4_J5_J6_#3more_w2" to=":clusterJ10_J4_J5_J6_#3more_c1" fromLane="0" toLane="0" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="15" dir="s" state="M"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_w2" to=":clusterJ10_J4_J5_J6_#3more_c1" fromLane="0" toLane="0" tl="tls_1" linkIndex="15" dir="s" state="M"/>
     <connection from=":clusterJ10_J4_J5_J6_#3more_w2" to="sud_out" fromLane="0" toLane="0" dir="s" state="M"/>
     <connection from="ovest_in" to=":clusterJ10_J4_J5_J6_#3more_w2" fromLane="0" toLane="0" dir="s" state="M"/>
-    <connection from=":clusterJ10_J4_J5_J6_#3more_w3" to=":clusterJ10_J4_J5_J6_#3more_c2" fromLane="0" toLane="0" tl="clusterJ10_J4_J5_J6_#3more" linkIndex="16" dir="s" state="M"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_w3" to=":clusterJ10_J4_J5_J6_#3more_c2" fromLane="0" toLane="0" tl="tls_1" linkIndex="16" dir="s" state="M"/>
     <connection from=":clusterJ10_J4_J5_J6_#3more_w3" to="ovest_out" fromLane="0" toLane="0" dir="s" state="M"/>
     <connection from="nord_in" to=":clusterJ10_J4_J5_J6_#3more_w3" fromLane="0" toLane="0" dir="s" state="M"/>
 </net>

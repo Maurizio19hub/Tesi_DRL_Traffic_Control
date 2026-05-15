@@ -25,12 +25,11 @@ class MyEnv(gym.Env):
 
 		#Dizionario delle lane
 		self.branches = {
-			"nord" : ["nord_in", "nord_in2", "nord_in3"],
-			"sud" : ["sud_in", "sud_in2", "sud_in3", "sud_in4"],
-			"est" : ["est_in"],
-			"ovest" : ["ovest_in"]
+			"nord":  ("nord_in",  1),
+			"sud":   ("sud_in",   1),
+			"est":   ("est_in",   2),
+			"ovest": ("ovest_in", 2),
 		}
-		#self.branch_lengths = {}
 
 		self.max_speed = 13.89 # massima velocità sulle strade, corrisponde a limite di 5O
 
@@ -39,12 +38,11 @@ class MyEnv(gym.Env):
 
 		self.time_since_last_change = 0
 		self.current_phase_index = 0
-		self.green_phases = [0, 3]
+		self.green_phases = [0, 2]
 		self.min_green_duration = 10
 		self.yellow_duration = 3
-		self.clearance_duration = 5
 		self.tls_id = "tls_1"
-		self.max_steps = 1000
+		self.max_steps = 10800
 		self.current_step = 0
 	
 	
@@ -58,22 +56,11 @@ class MyEnv(gym.Env):
 		self.episode += 1
 		sumo_seed = seed if seed is not None else self.episode
 		
-		'''
-		#Generazione percorsi veicoli con nuovo seed
-		subprocess.run([
-			"python", os.path.join(os.environ['SUMO_HOME'], 'tools', 'randomTrips.py'),
-			"-n", "incrocio6.net.xml",
-			"-e", "3600",
-			"-p", "1.5",
-			"-r", "veicoli.rou.xml", # Output file per veicoli
-			"--seed", str(sumo_seed)
-		], check=True, stdout=subprocess.DEVNULL)
-		'''
 		# Generazione percorsi Pedoni con nuovo seed
 		subprocess.run([
 			"python", os.path.join(os.environ['SUMO_HOME'], 'tools', 'randomTrips.py'),
-			"-n", "incrocio6.net.xml",
-			"-e", "3600",
+			"-n", "incrocio3.net.xml",
+			"-e", "10800",
 			"-p", "3.0",
 			"--persontrips",
 			"-r", "pedoni.rou.xml", # Output file per pedoni
@@ -102,32 +89,24 @@ class MyEnv(gym.Env):
 			total_halting = 0
 			total_length = 0
 			total_vehicles = 0
-			weighted_speed = 0.0
 			total_waiting = 0.0
-			for edge in edge_ids:
+			edge, num_lanes = edge_ids
 
-				# ---CODE---
-				total_halting += traci.edge.getLastStepHaltingNumber(edge)
-				total_length += traci.lane.getLength(edge + "_1")
+			# ---CODE---
+			total_halting = traci.edge.getLastStepHaltingNumber(edge)
+			total_length = traci.lane.getLength(edge + "_0")
 
 
-				# ---VELOCITÀ MEDIA---
-				# serve per il calcolo del tempo medio di attraversamento
-				vehicles = traci.edge.getLastStepVehicleNumber(edge)
-				speed = traci.edge.getLastStepMeanSpeed(edge)
-				weighted_speed += vehicles * speed
-				total_vehicles += vehicles
-				# ---TEMPO DI ATTESA---
-				total_waiting += traci.edge.getWaitingTime(edge)
+			# ---VELOCITÀ MEDIA---
+			# serve per il calcolo del tempo medio di attraversamento
+			total_vehicles = traci.edge.getLastStepVehicleNumber(edge)
+			mean_speed = traci.edge.getLastStepMeanSpeed(edge)
+			# ---TEMPO DI ATTESA---
+			total_waiting = traci.edge.getWaitingTime(edge)
 
 			
-			queue_meters = total_halting * 5 # liunghezza veicolo 
-			queue_norm = min(queue_meters / total_length*2, 1.0)
-
-			if total_vehicles > 0:
-				mean_speed = weighted_speed / total_vehicles
-			else:
-				mean_speed = self.max_speed
+			queue_meters = total_halting * 5 # lunghezza veicolo 
+			queue_norm = min(queue_meters / (total_length*num_lanes), 1.0)
 
 			speed_norm = min(mean_speed / self.max_speed, 1.0)
 
@@ -156,20 +135,16 @@ class MyEnv(gym.Env):
 	def step(self, action):
 		if action == 1 and self.time_since_last_change > self.min_green_duration:
 
-			clearance_phase = self.green_phases[self.current_phase_index] + 1
-			traci.trafficlight.setPhase(self.tls_id, clearance_phase)
-			#Fase di clearance da rimuovere, anche da netedit
-			for _ in range(self.clearance_duration):
-				traci.simulationStep()
-				self.current_step += 1
-				self.time_since_last_change += 1
-
-			yellow_phase = self.green_phases[self.current_phase_index] + 2
+			yellow_phase = self.green_phases[self.current_phase_index] + 1
 			traci.trafficlight.setPhase(self.tls_id, yellow_phase)
 			for _ in range(self.yellow_duration):
 				traci.simulationStep()
 				self.current_step += 1
 				self.time_since_last_change += 1
+				if self.current_step >= self.max_steps:
+					traci.close()
+					# restituisci subito senza calcolare obs/reward
+					return np.zeros(15, dtype=np.float32), 0.0, True, False, {}
 			
 			self.current_phase_index = 1 - self.current_phase_index
 			traci.trafficlight.setPhase(
