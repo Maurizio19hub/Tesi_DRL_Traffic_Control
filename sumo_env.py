@@ -15,7 +15,7 @@ class MyEnv(gym.Env):
 		#Dati presi dall'Enviroment (normalizzati):
 		##Lunghezza code veicoli
 		##Numero di pedoni
-		self.observation_space = spaces.Box(low = 0, high = 1.0, shape=(15,), dtype = np.float32)
+		self.observation_space = spaces.Box(low = 0, high = 1.0, shape=(18,), dtype = np.float32)
 
 		#File di configurazione SUMO
 		self.sumo_cfg = "simulazione.sumocfg"
@@ -39,11 +39,15 @@ class MyEnv(gym.Env):
 		self.time_since_last_change = 0
 		self.current_phase_index = 0
 		self.green_phases = [0, 2]
-		self.min_green_duration = 10
+		self.min_green_duration = 15
 		self.yellow_duration = 3
 		self.tls_id = "tls_1"
 		self.max_steps = 10800
 		self.current_step = 0
+
+		# per la reward differenziale sulla lunghezza delle code
+		self.previous_queue = 0.0
+		self.DECISION_INTERVAL =  5
 	
 	
 	#Resetta ambiente per nuova iterazione (episodio)
@@ -54,6 +58,9 @@ class MyEnv(gym.Env):
 		self.time_since_last_change = 0
 		self.current_phase_index = 0
 		self.episode += 1
+
+		self.previous_queue = 0.0
+
 		sumo_seed = seed if seed is not None else self.episode
 		
 		# Generazione percorsi Pedoni con nuovo seed
@@ -69,12 +76,17 @@ class MyEnv(gym.Env):
 
 		
 		sumo_cmd = [
-			"sumo-gui", "-c", self.sumo_cfg, # sumo-gui se vogli la modalità grafica
+			"sumo", "-c", self.sumo_cfg, # sumo-gui se vogli la modalità grafica
 			"--seed", str(sumo_seed),
 			"--waiting-time-memory", "1000", # serve per manternere memoria del tempo di attesa del veicolo per 1000s
 			"--no-step-log", "true", # non riempie terminale
-			"--start", "true",  # avvia automaticamente senza premere play (sumo-gui)
-			"--delay", "100"  # 100ms tra ogni step = velocità normal
+			#"--start", "true",  # avvia automaticamente senza premere play (sumo-gui)
+			#"--delay", "100",  # 100ms tra ogni step = velocità normal
+			"--time-to-teleport", "100",
+			"--collision.action", "teleport",
+			"--collision.mingap-factor", "0",
+			"--collision.check-junctions", "true",
+			"--no-warnings", "true", # warnings in fase di training intasano il terminale
 		]
 
 		if traci.isLoaded(): traci.close() # chiude le istanze già avviate se esistono 
@@ -130,6 +142,17 @@ class MyEnv(gym.Env):
 		# ---FASE CORRENTE---
 		obs.append(self.current_phase_index)
 
+		# ---FASCIA ORARIA ---
+		fascia_onehot = [0.0, 0.0, 0.0]
+		if self.current_step < 3600:
+			fascia_onehot[0] = 1.0   # mattina
+		elif self.current_step < 7200:
+			fascia_onehot[1] = 1.0   # pomeriggio
+		else:
+			fascia_onehot[2] = 1.0   # sera
+
+		obs.extend(fascia_onehot)
+
 		return np.array(obs, dtype=np.float32)
 	
 	def step(self, action):
@@ -152,10 +175,23 @@ class MyEnv(gym.Env):
 				self.green_phases[self.current_phase_index]
 			)
 			self.time_since_last_change = 0
+
+			remaining = self.DECISION_INTERVAL - self.yellow_duration
+			for _ in range(remaining):
+				traci.simulationStep()
+				self.current_step += 1
+				if self.current_step >= self.max_steps:
+					traci.close()
+					return np.zeros(18, dtype=np.float32), 0.0, True, False, {}
 		else:
-			traci.simulationStep()
-			self.current_step += 1
-			self.time_since_last_change += 1
+			for _ in range(self.DECISION_INTERVAL):
+				traci.simulationStep()
+				self.current_step += 1
+				self.time_since_last_change += 1
+				if self.current_step >= self.max_steps:
+					traci.close()
+					return np.zeros(18, dtype=np.float32), 0.0, True, False, {}
+
 
 		# ---CALCOLO OSSERVAZIONE E REWARD---
 		obs = self._get_observation()
@@ -174,9 +210,20 @@ class MyEnv(gym.Env):
 		if terminated: traci.close()
 
 		return obs, reward, terminated, truncated, info
-	
+
+
 	def _get_reward(self):
-		pass
+		current_queue = 0
+		for branch_name, edge_ids in self.branches.items():
+			edge, num_lanes = edge_ids
+			total_halting = traci.edge.getLastStepHaltingNumber(edge)
+			total_length = traci.lane.getLength(edge + "_0")
+			queue_norm = min((total_halting * 5) / (total_length * num_lanes), 1.0)
+			current_queue += queue_norm
+		reward = self.previous_queue - current_queue
+		self.previous_queue = current_queue
+		return reward 
+
 
 	def close(self):
 		if traci.isLoaded():
