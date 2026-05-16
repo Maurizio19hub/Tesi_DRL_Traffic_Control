@@ -3,7 +3,7 @@ from stable_baselines3 import PPO
 from sumo_env import MyEnv
 
 if __name__ == "__main__":
-    save_dir = "models"
+    save_dir = "models/t3"
     os.makedirs(save_dir, exist_ok=True)
 
     env = MyEnv()

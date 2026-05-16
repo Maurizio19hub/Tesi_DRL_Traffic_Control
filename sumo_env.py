@@ -33,20 +33,22 @@ class MyEnv(gym.Env):
 
 		self.max_speed = 13.89 # massima velocità sulle strade, corrisponde a limite di 5O
 
-		self.max_waiting_time = 300.0
-		self.max_pedestrians = 20
+		self.max_waiting_time = 90.0
+		self.max_pedestrians = 5
 
 		self.time_since_last_change = 0
 		self.current_phase_index = 0
 		self.green_phases = [0, 2]
 		self.min_green_duration = 15
+		self.max_green_duration = 120
 		self.yellow_duration = 3
 		self.tls_id = "tls_1"
 		self.max_steps = 10800
 		self.current_step = 0
 
-		# per la reward differenziale sulla lunghezza delle code
+		# per la reward differenziale
 		self.previous_queue = 0.0
+		self.previous_waiting = 0.0
 		self.DECISION_INTERVAL =  5
 	
 	
@@ -59,7 +61,9 @@ class MyEnv(gym.Env):
 		self.current_phase_index = 0
 		self.episode += 1
 
+		# riporto a 0 i valori differenziali all'inizio del nuovo seed
 		self.previous_queue = 0.0
+		self.previous_waiting = 0.0
 
 		sumo_seed = seed if seed is not None else self.episode
 		
@@ -131,12 +135,15 @@ class MyEnv(gym.Env):
 		for person_id in traci.person.getIDList():
 			if traci.person.getWaitingTime(person_id) > 0:
 				ped_waiting += 1
-		
+		'''
+		if self.current_step % 500 == 0:
+			print(f"[Step {self.current_step}] Pedoni in giro: {len(traci.person.getIDList())}, in attesa: {ped_waiting}")
+		'''
 		ped_norm = min(ped_waiting / self.max_pedestrians, 1.0)
 		obs.append(ped_norm)
 
 		# ---TEMPO DALL'ULTIMO CAMBIO FASE---
-		time_norm = min(self.time_since_last_change / self.min_green_duration, 1)
+		time_norm = min(self.time_since_last_change / self.max_green_duration, 1)
 		obs.append(time_norm)
 
 		# ---FASE CORRENTE---
@@ -214,14 +221,33 @@ class MyEnv(gym.Env):
 
 	def _get_reward(self):
 		current_queue = 0
+		current_waiting = 0
 		for branch_name, edge_ids in self.branches.items():
 			edge, num_lanes = edge_ids
+
+			# code
 			total_halting = traci.edge.getLastStepHaltingNumber(edge)
 			total_length = traci.lane.getLength(edge + "_0")
 			queue_norm = min((total_halting * 5) / (total_length * num_lanes), 1.0)
 			current_queue += queue_norm
-		reward = self.previous_queue - current_queue
+
+			# tempo di attesa
+			waiting_norm = min(traci.edge.getWaitingTime(edge) / self.max_waiting_time, 1.0)
+			current_waiting += waiting_norm
+
+		# reward differenziale code
+		reward_queue = self.previous_queue - current_queue
+
+		# reward differenziale tempi di attesa
+		reward_waiting = self.previous_waiting - current_waiting
+
+		# combianzione pesata delle reward
+		reward = reward_queue + 0.5 * reward_waiting
+
+		# aggiornamento valori per le reward differenziali
 		self.previous_queue = current_queue
+		self.previous_waiting = current_waiting
+
 		return reward 
 
 
