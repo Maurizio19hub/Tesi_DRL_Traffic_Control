@@ -13,7 +13,7 @@ print(f"Obs values: {obs}")
 print(f"Obs min: {obs.min():.3f}, max: {obs.max():.3f}")
 
 # Verifica bounds
-assert obs.shape == (18,), f"Shape sbagliata: {obs.shape}"
+assert obs.shape == (19,), f"Shape sbagliata: {obs.shape}"
 assert obs.min() >= 0.0, "Valore sotto 0"
 assert obs.max() <= 1.0, "Valore sopra 1"
 print("✅ Bounds OK")

@@ -15,7 +15,7 @@ class MyEnv(gym.Env):
 		#Dati presi dall'Enviroment (normalizzati):
 		##Lunghezza code veicoli
 		##Numero di pedoni
-		self.observation_space = spaces.Box(low = 0, high = 1.0, shape=(18,), dtype = np.float32)
+		self.observation_space = spaces.Box(low = 0, high = 1.0, shape=(19,), dtype = np.float32)
 
 		#File di configurazione SUMO
 		self.sumo_cfg = "simulazione.sumocfg"
@@ -147,7 +147,10 @@ class MyEnv(gym.Env):
 		obs.append(time_norm)
 
 		# ---FASE CORRENTE---
-		obs.append(self.current_phase_index)
+		# usare one hot encoding
+		phase_one_hot = [0, 0]
+		phase_one_hot[self.current_phase_index] = 1
+		obs.extend(phase_one_hot)
 
 		# ---FASCIA ORARIA ---
 		fascia_onehot = [0.0, 0.0, 0.0]
@@ -174,7 +177,7 @@ class MyEnv(gym.Env):
 				if self.current_step >= self.max_steps:
 					traci.close()
 					# restituisci subito senza calcolare obs/reward
-					return np.zeros(15, dtype=np.float32), 0.0, True, False, {}
+					return np.zeros(19, dtype=np.float32), 0.0, True, False, {}
 			
 			self.current_phase_index = 1 - self.current_phase_index
 			traci.trafficlight.setPhase(
@@ -189,7 +192,7 @@ class MyEnv(gym.Env):
 				self.current_step += 1
 				if self.current_step >= self.max_steps:
 					traci.close()
-					return np.zeros(18, dtype=np.float32), 0.0, True, False, {}
+					return np.zeros(19, dtype=np.float32), 0.0, True, False, {}
 		else:
 			for _ in range(self.DECISION_INTERVAL):
 				traci.simulationStep()
@@ -197,7 +200,7 @@ class MyEnv(gym.Env):
 				self.time_since_last_change += 1
 				if self.current_step >= self.max_steps:
 					traci.close()
-					return np.zeros(18, dtype=np.float32), 0.0, True, False, {}
+					return np.zeros(19, dtype=np.float32), 0.0, True, False, {}
 
 
 		# ---CALCOLO OSSERVAZIONE E REWARD---
@@ -242,7 +245,8 @@ class MyEnv(gym.Env):
 		reward_waiting = self.previous_waiting - current_waiting
 
 		# combianzione pesata delle reward
-		reward = reward_queue + 0.5 * reward_waiting
+		reward = reward_queue + 0.1 * reward_waiting
+		#print(reward_queue,"-------",reward_waiting)
 
 		# aggiornamento valori per le reward differenziali
 		self.previous_queue = current_queue
