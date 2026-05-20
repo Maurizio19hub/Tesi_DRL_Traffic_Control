@@ -15,7 +15,7 @@ class MyEnv(gym.Env):
 		#Dati presi dall'Enviroment (normalizzati):
 		##Lunghezza code veicoli
 		##Numero di pedoni
-		self.observation_space = spaces.Box(low = 0, high = 1.0, shape=(19,), dtype = np.float32)
+		self.observation_space = spaces.Box(low = 0, high = 1.0, shape=(23,), dtype = np.float32)
 
 		#File di configurazione SUMO
 		self.sumo_cfg = "simulazione.sumocfg"
@@ -49,7 +49,8 @@ class MyEnv(gym.Env):
 		# per la reward differenziale
 		self.previous_queue = 0.0
 		self.previous_waiting = 0.0
-		self.DECISION_INTERVAL =  5
+		self.DECISION_INTERVAL =  15
+		self.SCALE_FACTOR = 10
 	
 	
 	#Resetta ambiente per nuova iterazione (episodio)
@@ -115,12 +116,13 @@ class MyEnv(gym.Env):
 
 			# ---VELOCITÀ MEDIA---
 			# serve per il calcolo del tempo medio di attraversamento
-			total_vehicles = traci.edge.getLastStepVehicleNumber(edge)
+			incoming = traci.edge.getLastStepVehicleNumber(edge)
 			mean_speed = traci.edge.getLastStepMeanSpeed(edge)
 			# ---TEMPO DI ATTESA---
 			total_waiting = traci.edge.getWaitingTime(edge)
 
-			
+			incoming_norm = min(incoming / (num_lanes * 10), 1.0)
+
 			queue_meters = total_halting * 5 # lunghezza veicolo 
 			queue_norm = min(queue_meters / (total_length*num_lanes), 1.0)
 
@@ -128,7 +130,7 @@ class MyEnv(gym.Env):
 
 			waiting_norm = min(total_waiting / self.max_waiting_time, 1.0)
 
-			obs.extend([queue_norm, speed_norm, waiting_norm])
+			obs.extend([queue_norm, speed_norm, waiting_norm, incoming_norm])
 
 		# ---TOTALE PEDONI IN ATTESA---
 		ped_waiting = 0
@@ -177,7 +179,7 @@ class MyEnv(gym.Env):
 				if self.current_step >= self.max_steps:
 					traci.close()
 					# restituisci subito senza calcolare obs/reward
-					return np.zeros(19, dtype=np.float32), 0.0, True, False, {}
+					return np.zeros(23, dtype=np.float32), 0.0, True, False, {}
 			
 			self.current_phase_index = 1 - self.current_phase_index
 			traci.trafficlight.setPhase(
@@ -192,7 +194,7 @@ class MyEnv(gym.Env):
 				self.current_step += 1
 				if self.current_step >= self.max_steps:
 					traci.close()
-					return np.zeros(19, dtype=np.float32), 0.0, True, False, {}
+					return np.zeros(23, dtype=np.float32), 0.0, True, False, {}
 		else:
 			for _ in range(self.DECISION_INTERVAL):
 				traci.simulationStep()
@@ -200,7 +202,7 @@ class MyEnv(gym.Env):
 				self.time_since_last_change += 1
 				if self.current_step >= self.max_steps:
 					traci.close()
-					return np.zeros(19, dtype=np.float32), 0.0, True, False, {}
+					return np.zeros(23, dtype=np.float32), 0.0, True, False, {}
 
 
 		# ---CALCOLO OSSERVAZIONE E REWARD---
@@ -223,36 +225,35 @@ class MyEnv(gym.Env):
 
 
 	def _get_reward(self):
-		current_queue = 0
+		current_queue   = 0
 		current_waiting = 0
+		queues = [0,0,0,0]
+		i = 0
 		for branch_name, edge_ids in self.branches.items():
 			edge, num_lanes = edge_ids
 
-			# code
+			# Code
 			total_halting = traci.edge.getLastStepHaltingNumber(edge)
-			total_length = traci.lane.getLength(edge + "_0")
-			queue_norm = min((total_halting * 5) / (total_length * num_lanes), 1.0)
+			total_length  = traci.lane.getLength(edge + "_0")
+			queue_norm    = min((total_halting * 5) / (total_length * num_lanes), 1.0)
 			current_queue += queue_norm
-
-			# tempo di attesa
-			waiting_norm = min(traci.edge.getWaitingTime(edge) / self.max_waiting_time, 1.0)
+			queues[i] = queue_norm
+			i += 1
+			# Tempo di attesa
+			waiting_norm  = min(traci.edge.getWaitingTime(edge) / self.max_waiting_time, 1.0)
 			current_waiting += waiting_norm
 
-		# reward differenziale code
-		reward_queue = self.previous_queue - current_queue
+		# Termine differenziale — premia il miglioramento
+		delta_queue   = self.previous_queue   - current_queue
+		delta_waiting = self.previous_waiting - current_waiting
 
-		# reward differenziale tempi di attesa
-		reward_waiting = self.previous_waiting - current_waiting
+		# Reward ibrida
+		reward = (delta_queue + delta_waiting * 0.25) * self.SCALE_FACTOR
 
-		# combianzione pesata delle reward
-		reward = reward_queue + 0.1 * reward_waiting
-		#print(reward_queue,"-------",reward_waiting)
-
-		# aggiornamento valori per le reward differenziali
-		self.previous_queue = current_queue
+		self.previous_queue   = current_queue
 		self.previous_waiting = current_waiting
-
-		return reward 
+		#print(f"queue: nord={queues[0]:.2f} sud={queues[1]:.2f} est={queues[2]:.2f} ovest={queues[3]:.2f}")
+		return reward
 
 
 	def close(self):

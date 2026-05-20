@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2026-05-16T18:48:54.566816+01:00 by Eclipse SUMO netedit v1_26_0+0485-c820d16e9df
+<!-- generated on 2026-05-20T12:05:59.621256+01:00 by Eclipse SUMO netedit v1_26_0+0485-c820d16e9df
 <neteditConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/neteditConfiguration.xsd">
 
     <input>
@@ -172,12 +172,12 @@
     </edge>
 
     <tlLogic id="tls_1" type="static" programID="0" offset="0">
-        <phase duration="34" state="gGGgrrrgGGgrrrrGrG"/>
+        <phase duration="37" state="gGGgrrrgGGgrrrrGrG"/>
         <phase duration="5"  state="gGGgrrrgGGgrrrrrrr"/>
-        <phase duration="6"  state="yyyyrrryyyyrrrrrrr"/>
-        <phase duration="34" state="rrrrgGgrrrrgGgGrGr"/>
+        <phase duration="3"  state="yyyyrrryyyyrrrrrrr"/>
+        <phase duration="37" state="rrrrgGgrrrrgGgGrGr"/>
         <phase duration="5"  state="rrrrgGgrrrrgGgrrrr"/>
-        <phase duration="6"  state="rrrryyyrrrryyyrrrr"/>
+        <phase duration="3"  state="rrrryyyrrrryyyrrrr"/>
     </tlLogic>
 
     <junction id="2623145725" type="dead_end" x="490.33" y="910.14" incLanes="" intLanes="" shape="491.98,906.28 488.68,914.00"/>
