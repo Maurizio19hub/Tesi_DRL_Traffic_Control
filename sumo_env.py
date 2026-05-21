@@ -49,7 +49,7 @@ class MyEnv(gym.Env):
 		# per la reward differenziale
 		self.previous_queue = 0.0
 		self.previous_waiting = 0.0
-		self.DECISION_INTERVAL =  15
+		self.DECISION_INTERVAL =  5
 		self.SCALE_FACTOR = 10
 	
 	
@@ -96,6 +96,9 @@ class MyEnv(gym.Env):
 
 		if traci.isLoaded(): traci.close() # chiude le istanze già avviate se esistono 
 		traci.start(sumo_cmd)
+		# forzare mantenimento della fase fino alla prossima decisione dell'agente
+		traci.trafficlight.setPhase(self.tls_id, self.green_phases[self.current_phase_index])
+		traci.trafficlight.setPhaseDuration(self.tls_id, self.max_steps)
 		
 		return self._get_observation(), {}
 
@@ -105,8 +108,6 @@ class MyEnv(gym.Env):
 			
 			total_halting = 0
 			total_length = 0
-			total_vehicles = 0
-			total_waiting = 0.0
 			edge, num_lanes = edge_ids
 
 			# ---CODE---
@@ -116,19 +117,19 @@ class MyEnv(gym.Env):
 
 			# ---VELOCITÀ MEDIA---
 			# serve per il calcolo del tempo medio di attraversamento
-			incoming = traci.edge.getLastStepVehicleNumber(edge)
+			veh_count = max(traci.edge.getLastStepVehicleNumber(edge), 1)
 			mean_speed = traci.edge.getLastStepMeanSpeed(edge)
 			# ---TEMPO DI ATTESA---
-			total_waiting = traci.edge.getWaitingTime(edge)
 
-			incoming_norm = min(incoming / (num_lanes * 10), 1.0)
+			incoming_norm = min(veh_count / (num_lanes * 10), 1.0)
 
 			queue_meters = total_halting * 5 # lunghezza veicolo 
 			queue_norm = min(queue_meters / (total_length*num_lanes), 1.0)
 
 			speed_norm = min(mean_speed / self.max_speed, 1.0)
 
-			waiting_norm = min(total_waiting / self.max_waiting_time, 1.0)
+			waiting_mean = traci.edge.getWaitingTime(edge) / veh_count
+			waiting_norm = min(waiting_mean / self.max_waiting_time, 1.0)
 
 			obs.extend([queue_norm, speed_norm, waiting_norm, incoming_norm])
 
@@ -168,14 +169,17 @@ class MyEnv(gym.Env):
 		return np.array(obs, dtype=np.float32)
 	
 	def step(self, action):
-		if action == 1 and self.time_since_last_change > self.min_green_duration:
+		interval_cost = 0.0
+		if action == 1 and self.time_since_last_change >= self.min_green_duration:
 
 			yellow_phase = self.green_phases[self.current_phase_index] + 1
 			traci.trafficlight.setPhase(self.tls_id, yellow_phase)
+			# forzare mantenimento della fase fino alla prossima decisione dell'agente
+			traci.trafficlight.setPhaseDuration(self.tls_id, self.max_steps)
 			for _ in range(self.yellow_duration):
 				traci.simulationStep()
 				self.current_step += 1
-				self.time_since_last_change += 1
+				interval_cost += self._get_cost()
 				if self.current_step >= self.max_steps:
 					traci.close()
 					# restituisci subito senza calcolare obs/reward
@@ -186,28 +190,37 @@ class MyEnv(gym.Env):
 				self.tls_id,
 				self.green_phases[self.current_phase_index]
 			)
+			# forzare mantenimento della fase fino alla prossima decisione dell'agente
+			traci.trafficlight.setPhaseDuration(self.tls_id, self.max_steps)
 			self.time_since_last_change = 0
 
 			remaining = self.DECISION_INTERVAL - self.yellow_duration
 			for _ in range(remaining):
 				traci.simulationStep()
 				self.current_step += 1
+				self.time_since_last_change += 1
+				interval_cost += self._get_cost()
 				if self.current_step >= self.max_steps:
 					traci.close()
 					return np.zeros(23, dtype=np.float32), 0.0, True, False, {}
 		else:
 			for _ in range(self.DECISION_INTERVAL):
+				# forzare mantenimento della fase fino alla prossima decisione dell'agente
+				traci.trafficlight.setPhase(self.tls_id, self.green_phases[self.current_phase_index])
+				traci.trafficlight.setPhaseDuration(self.tls_id, self.max_steps)
 				traci.simulationStep()
 				self.current_step += 1
 				self.time_since_last_change += 1
+				interval_cost += self._get_cost()
 				if self.current_step >= self.max_steps:
 					traci.close()
 					return np.zeros(23, dtype=np.float32), 0.0, True, False, {}
-
+			
+				
 
 		# ---CALCOLO OSSERVAZIONE E REWARD---
 		obs = self._get_observation()
-		reward = self._get_reward()
+		reward = - interval_cost / self.DECISION_INTERVAL
 
 		# ---CONTROLLO SE EPISODIO È TERMINATO---
 		terminated = self.current_step >= self.max_steps
@@ -216,7 +229,9 @@ class MyEnv(gym.Env):
 		info = {
 			"step": self.current_step,
 			"phase": self.current_phase_index,
-			"time_since_change": self.time_since_last_change
+			"time_since_change": self.time_since_last_change,
+			"sumo_phase": traci.trafficlight.getPhase(self.tls_id),
+			"env_phase": self.current_phase_index
 		}
 
 		if terminated: traci.close()
@@ -224,38 +239,24 @@ class MyEnv(gym.Env):
 		return obs, reward, terminated, truncated, info
 
 
-	def _get_reward(self):
+	def close(self):
+		if traci.isLoaded():
+			traci.close()
+	
+	def _get_cost(self):
 		current_queue   = 0
 		current_waiting = 0
-		queues = [0,0,0,0]
-		i = 0
 		for branch_name, edge_ids in self.branches.items():
 			edge, num_lanes = edge_ids
-
 			# Code
 			total_halting = traci.edge.getLastStepHaltingNumber(edge)
 			total_length  = traci.lane.getLength(edge + "_0")
 			queue_norm    = min((total_halting * 5) / (total_length * num_lanes), 1.0)
 			current_queue += queue_norm
-			queues[i] = queue_norm
-			i += 1
 			# Tempo di attesa
-			waiting_norm  = min(traci.edge.getWaitingTime(edge) / self.max_waiting_time, 1.0)
+			veh_count = max(traci.edge.getLastStepVehicleNumber(edge), 1)
+			waiting_mean = traci.edge.getWaitingTime(edge) / veh_count
+			waiting_norm = min(waiting_mean / self.max_waiting_time, 1.0)
 			current_waiting += waiting_norm
 
-		# Termine differenziale — premia il miglioramento
-		delta_queue   = self.previous_queue   - current_queue
-		delta_waiting = self.previous_waiting - current_waiting
-
-		# Reward ibrida
-		reward = (delta_queue + delta_waiting * 0.25) * self.SCALE_FACTOR
-
-		self.previous_queue   = current_queue
-		self.previous_waiting = current_waiting
-		#print(f"queue: nord={queues[0]:.2f} sud={queues[1]:.2f} est={queues[2]:.2f} ovest={queues[3]:.2f}")
-		return reward
-
-
-	def close(self):
-		if traci.isLoaded():
-			traci.close()
+		return (current_queue + 0.1 * current_waiting)
