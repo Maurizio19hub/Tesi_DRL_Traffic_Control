@@ -1,12 +1,12 @@
 <configuration>
     <input>
         <net-file value="incrocio3.net.xml"/>
-        <route-files value="incrocio3.rou.xml, pedoni.rou.xml"/>
+        <route-files value="flussi_calibrati.rou.xml, pedoni.rou.xml"/>
         <additional-files value="tls.tll.xml"/>
     </input>
     <time>
         <begin value="0"/>
-        <end value="10800"/>
+        <end value="3600"/>
         <step-length value="1"/>
     </time>
 </configuration>
