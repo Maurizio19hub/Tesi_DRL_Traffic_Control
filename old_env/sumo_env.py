@@ -49,16 +49,14 @@ class MyEnv(gym.Env):
 		# per la reward differenziale
 		self.previous_queue = 0.0
 		self.previous_waiting = 0.0
-		self.in_yellow = False
-		self.yellow_steps_remaining = 0
+		self.DECISION_INTERVAL =  5
+		self.SCALE_FACTOR = 10
 	
 	
 	#Resetta ambiente per nuova iterazione (episodio)
 	##Cambiare il seed, o impostarlo passandolo alla funzione
 	def reset(self, seed = None, options = None):
 		super().reset(seed=seed)
-		self.in_yellow = False
-		self.yellow_steps_remaining = 0
 		self.current_step = 0
 		self.time_since_last_change = 0
 		self.current_phase_index = 0
@@ -83,12 +81,12 @@ class MyEnv(gym.Env):
 
 		
 		sumo_cmd = [
-			"sumo-gui", "-c", self.sumo_cfg, # sumo-gui se vogli la modalità grafica
+			"sumo", "-c", self.sumo_cfg, # sumo-gui se vogli la modalità grafica
 			"--seed", str(sumo_seed),
 			"--waiting-time-memory", "1000", # serve per manternere memoria del tempo di attesa del veicolo per 1000s
 			"--no-step-log", "true", # non riempie terminale
-			"--start", "true",  # avvia automaticamente senza premere play (sumo-gui)
-			"--delay", "100",  # 100ms tra ogni step = velocità normal
+			#"--start", "true",  # avvia automaticamente senza premere play (sumo-gui)
+			#"--delay", "100",  # 100ms tra ogni step = velocità normal
 			"--time-to-teleport", "100",
 			"--collision.action", "teleport",
 			"--collision.mingap-factor", "0",
@@ -171,57 +169,72 @@ class MyEnv(gym.Env):
 		return np.array(obs, dtype=np.float32)
 	
 	def step(self, action):
-		
-		# Applica l'azione solo se siamo in verde e il tempo minimo è rispettato
-		if action == 1 and self.time_since_last_change >= self.min_green_duration and not self.in_yellow:
-			# Inizia la transizione — imposta giallo
-			self.in_yellow = True
-			self.yellow_steps_remaining = self.yellow_duration
+		interval_cost = 0.0
+		if action == 1 and self.time_since_last_change >= self.min_green_duration:
+
 			yellow_phase = self.green_phases[self.current_phase_index] + 1
 			traci.trafficlight.setPhase(self.tls_id, yellow_phase)
+			# forzare mantenimento della fase fino alla prossima decisione dell'agente
 			traci.trafficlight.setPhaseDuration(self.tls_id, self.max_steps)
+			for _ in range(self.yellow_duration):
+				traci.simulationStep()
+				self.current_step += 1
+				interval_cost += self._get_cost()
+				if self.current_step >= self.max_steps:
+					traci.close()
+					# restituisci subito senza calcolare obs/reward
+					return np.zeros(23, dtype=np.float32), 0.0, True, False, {}
+			
+			self.current_phase_index = 1 - self.current_phase_index
+			traci.trafficlight.setPhase(
+				self.tls_id,
+				self.green_phases[self.current_phase_index]
+			)
+			# forzare mantenimento della fase fino alla prossima decisione dell'agente
+			traci.trafficlight.setPhaseDuration(self.tls_id, self.max_steps)
+			self.time_since_last_change = 0
 
-		# Se siamo in fase gialla, scalare il countdown
-		if self.in_yellow:
-			self.yellow_steps_remaining -= 1
-			if self.yellow_steps_remaining == 0:
-				# Fine giallo → passa al verde successivo
-				self.in_yellow = False
-				self.current_phase_index = 1 - self.current_phase_index
+			remaining = self.DECISION_INTERVAL - self.yellow_duration
+			for _ in range(remaining):
+				traci.simulationStep()
+				self.current_step += 1
+				self.time_since_last_change += 1
+				interval_cost += self._get_cost()
+				if self.current_step >= self.max_steps:
+					traci.close()
+					return np.zeros(23, dtype=np.float32), 0.0, True, False, {}
+		else:
+			for _ in range(self.DECISION_INTERVAL):
+				# forzare mantenimento della fase fino alla prossima decisione dell'agente
 				traci.trafficlight.setPhase(self.tls_id, self.green_phases[self.current_phase_index])
 				traci.trafficlight.setPhaseDuration(self.tls_id, self.max_steps)
-				self.time_since_last_change = 0
-		else:
-			# Verde normale
-			traci.trafficlight.setPhase(self.tls_id, self.green_phases[self.current_phase_index])
-			traci.trafficlight.setPhaseDuration(self.tls_id, self.max_steps)
-			self.time_since_last_change += 1
+				traci.simulationStep()
+				self.current_step += 1
+				self.time_since_last_change += 1
+				interval_cost += self._get_cost()
+				if self.current_step >= self.max_steps:
+					traci.close()
+					return np.zeros(23, dtype=np.float32), 0.0, True, False, {}
 			
-		# Avanza di un secondo
-		traci.simulationStep()
-		self.current_step += 1
+				
 
-		if self.current_step >= self.max_steps:
-			traci.close()
-			return np.zeros(23, dtype=np.float32), 0.0, True, False, {}
+		# ---CALCOLO OSSERVAZIONE E REWARD---
+		obs = self._get_observation()
+		reward = - interval_cost / self.DECISION_INTERVAL
 
-		obs    = self._get_observation()
-		# aggiunta di un premio sul throughput
-		reward = -self._get_cost() + 0.5 * traci.simulation.getArrivedNumber()
-
+		# ---CONTROLLO SE EPISODIO È TERMINATO---
 		terminated = self.current_step >= self.max_steps
-		truncated  = False
-
+		truncated = False
+		
 		info = {
-			"step":              self.current_step,
-			"phase":             self.current_phase_index,
+			"step": self.current_step,
+			"phase": self.current_phase_index,
 			"time_since_change": self.time_since_last_change,
-			"sumo_phase":        traci.trafficlight.getPhase(self.tls_id),
-			"env_phase":         self.current_phase_index
+			"sumo_phase": traci.trafficlight.getPhase(self.tls_id),
+			"env_phase": self.current_phase_index
 		}
 
-		if terminated:
-			traci.close()
+		if terminated: traci.close()
 
 		return obs, reward, terminated, truncated, info
 
