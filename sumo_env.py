@@ -81,12 +81,12 @@ class MyEnv(gym.Env):
 
 		
 		sumo_cmd = [
-			"sumo", "-c", self.sumo_cfg, # sumo-gui se vogli la modalità grafica
+			"sumo-gui", "-c", self.sumo_cfg, # sumo-gui se vogli la modalità grafica
 			"--seed", str(sumo_seed),
 			"--waiting-time-memory", "1000", # serve per manternere memoria del tempo di attesa del veicolo per 1000s
 			"--no-step-log", "true", # non riempie terminale
-			#"--start", "true",  # avvia automaticamente senza premere play (sumo-gui)
-			#"--delay", "100",  # 100ms tra ogni step = velocità normal
+			"--start", "true",  # avvia automaticamente senza premere play (sumo-gui)
+			"--delay", "100",  # 100ms tra ogni step = velocità normal
 			"--time-to-teleport", "100",
 			"--collision.action", "teleport",
 			"--collision.mingap-factor", "0",
@@ -258,8 +258,10 @@ class MyEnv(gym.Env):
 			balance_bonus += 0.2'''
 		
 		for i in range(len(queue_values)):
-			balance_bonus += -(queue_values[i]-0.2)*0.1
-			balance_bonus += -(waiting_values[i]-0.1)*0.1
+			if queue_values[i] > 0.4:
+				balance_bonus += -(queue_values[i]-0.4)*0.5
+			if waiting_values[i] > 0.4:
+				balance_bonus += -(waiting_values[i]-0.3)*0.5
 
 		#print(f"TOTAL QUEUE : {total_queue}")
 		#print(f"TOTAL WAITING : {total_waiting}")
@@ -270,4 +272,4 @@ class MyEnv(gym.Env):
 			self.last_cost = current_cost
 			return 0
 		self.last_cost = current_cost
-		return (ret + balance_bonus*0.01)*20
+		return (ret + balance_bonus)*20

@@ -1,7 +1,7 @@
 from stable_baselines3 import PPO
 from sumo_env import MyEnv
 
-model = PPO.load("models/t11/ppo_semaforo")
+model = PPO.load("models/t12/ppo_semaforo")
 env   = MyEnv()
 obs, _ = env.reset()
 
