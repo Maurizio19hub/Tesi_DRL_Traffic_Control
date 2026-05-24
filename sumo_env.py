@@ -64,6 +64,7 @@ class MyEnv(gym.Env):
 		self.time_since_last_change = 0
 		self.current_phase_index = 0
 		self.episode += 1
+		self.last_cost = 0
 
 
 		sumo_seed = seed if seed is not None else self.episode
@@ -81,12 +82,12 @@ class MyEnv(gym.Env):
 
 		
 		sumo_cmd = [
-			"sumo-gui", "-c", self.sumo_cfg, # sumo-gui se vogli la modalità grafica
+			"sumo", "-c", self.sumo_cfg, # sumo-gui se vogli la modalità grafica
 			"--seed", str(sumo_seed),
 			"--waiting-time-memory", "1000", # serve per manternere memoria del tempo di attesa del veicolo per 1000s
 			"--no-step-log", "true", # non riempie terminale
-			"--start", "true",  # avvia automaticamente senza premere play (sumo-gui)
-			"--delay", "100",  # 100ms tra ogni step = velocità normal
+			#"--start", "true",  # avvia automaticamente senza premere play (sumo-gui)
+			#"--delay", "100",  # 100ms tra ogni step = velocità normal
 			"--time-to-teleport", "100",
 			"--collision.action", "teleport",
 			"--collision.mingap-factor", "0",
