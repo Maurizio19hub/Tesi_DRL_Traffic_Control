@@ -2,8 +2,6 @@ import numpy as np
 from sumo_env import MyEnv
 import traci
 
-N_EPISODES = 5
-
 class FixedPhaseEnv(MyEnv):
     def reset(self, seed=None, options=None):
         result = super().reset(seed=seed, options=options)

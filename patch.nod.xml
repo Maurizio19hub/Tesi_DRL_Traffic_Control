@@ -1,0 +1,6 @@
+<nodes>
+    <node id="est_end"   x="587.27"  y="944.93"  type="dead_end"/>
+    <node id="ovest_end" x="19.46"   y="756.43"  type="dead_end"/>
+    <node id="J2"        x="251.61"  y="1123.28" type="dead_end"/>
+    <node id="J3"        x="403.20"  y="543.80"  type="dead_end"/>
+</nodes>

@@ -259,15 +259,15 @@ class MyEnv(gym.Env):
 			balance_bonus += 0.2'''
 		
 		for i in range(len(queue_values)):
-			if queue_values[i] > 0.4:
-				balance_bonus += -(queue_values[i]-0.4)*0.5
+			if queue_values[i] > 0.26:
+				balance_bonus += -(queue_values[i]-0.26)*0.75
 			if waiting_values[i] > 0.4:
-				balance_bonus += -(waiting_values[i]-0.3)*0.5
+				balance_bonus += -(waiting_values[i]-0.3)*0.75
 
 		#print(f"TOTAL QUEUE : {total_queue}")
 		#print(f"TOTAL WAITING : {total_waiting}")
 		
-		current_cost = total_queue + 2*total_waiting
+		current_cost = (total_queue*1.5) + 2*total_waiting
 		ret = self.last_cost - current_cost
 		if self.last_cost == 0: 
 			self.last_cost = current_cost

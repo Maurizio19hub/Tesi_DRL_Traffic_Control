@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-05-28T11:09:53.561870+01:00 by Eclipse SUMO netconvert v1_26_0+0485-c820d16e9df
+<netconvertConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <sumo-net-file value="incrocio3_300m.net.xml"/>
+        <node-files value="patch.nod.xml"/>
+    </input>
+
+    <output>
+        <output-file value="incrocio3_300mf.net.xml"/>
+    </output>
+
+    <processing>
+        <geometry.min-radius.fix.railways value="false"/>
+        <geometry.avoid-overlap value="false"/>
+        <geometry.max-grade.fix value="false"/>
+        <offset.disable-normalization value="true"/>
+        <lefthand value="0"/>
+    </processing>
+
+    <junctions>
+        <no-turnarounds value="true"/>
+        <junctions.join value="true"/>
+        <junctions.corner-detail value="5"/>
+        <junctions.limit-turn-speed value="5.50"/>
+        <rectangular-lane-cut value="0"/>
+    </junctions>
+
+    <pedestrian>
+        <walkingareas value="0"/>
+    </pedestrian>
+
+</netconvertConfiguration>
+-->
+
+<net version="1.20" junctionCornerDetail="5" limitTurnSpeed="5.50" avoidOverlap="0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
+
+    <location netOffset="-657533.38,-4550876.05" convBoundary="18.24,543.80,590.79,1123.28" origBoundary="16.875997,41.093734,16.887150,41.104898" projParameter="+proj=utm +zone=33 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"/>
+
+    <type id="highway.secondary" priority="11" numLanes="1" speed="27.78" disallow="tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" oneway="0"/>
+    <type id="highway.tertiary" priority="10" numLanes="1" speed="22.22" disallow="tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" oneway="0"/>
+
+    <edge id=":J2_w0" function="walkingarea">
+        <lane id=":J2_w0_0" index="0" allow="pedestrian" speed="2.78" length="8.40" width="2.00" shape="248.53,1122.42 246.60,1121.88 256.62,1124.68 254.69,1124.14"/>
+    </edge>
+    <edge id=":J3_w0" function="walkingarea">
+        <lane id=":J3_w0_0" index="0" allow="pedestrian" speed="2.78" length="8.40" width="2.00" shape="406.12,545.10 407.95,545.91 398.45,541.69 400.28,542.50"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_0" function="internal">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_0_0" index="0" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="7.30" length="8.40" shape="319.99,840.60 315.58,839.15 312.24,838.99 311.87,839.18"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_1" function="internal">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_1_0" index="0" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="13.89" length="26.46" shape="319.99,840.60 312.79,837.66 307.75,835.94 302.59,834.57 295.03,832.68"/>
+        <lane id=":clusterJ10_J4_J5_J6_#3more_1_1" index="1" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="13.89" length="26.46" shape="321.22,837.65 313.90,834.65 308.77,832.90 303.51,831.50 295.83,829.58"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_3" function="internal">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_3_0" index="0" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="11.28" length="13.69" shape="321.22,837.65 316.18,834.33 313.20,829.53 312.91,827.55"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_14" function="internal">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_14_0" index="0" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="7.30" length="4.87" shape="311.87,839.18 309.96,840.14 308.75,842.58"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_15" function="internal">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_15_0" index="0" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="11.28" length="12.14" shape="312.91,827.55 312.28,823.27 313.42,815.54"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_4" function="internal">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_4_0" index="0" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="8.66" length="11.36" shape="315.95,816.19 316.00,818.80 317.68,821.36 321.00,823.86 322.37,824.53"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_5" function="internal">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_5_0" index="0" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="13.89" length="27.36" shape="315.95,816.19 308.75,842.58"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_6" function="internal">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_6_0" index="0" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="11.05" length="0.93" shape="315.95,816.19 315.58,817.04"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_16" function="internal">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_16_0" index="0" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="8.66" length="4.01" shape="322.37,824.53 325.96,826.31"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_17" function="internal">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_17_0" index="0" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="11.05" length="26.41" shape="315.58,817.04 312.81,823.50 308.41,828.17 302.75,830.19 295.83,829.58"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_7" function="internal">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_7_0" index="0" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="8.51" length="10.71" shape="298.86,817.74 304.71,818.79 309.09,818.77 309.45,818.64"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_8" function="internal">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_8_0" index="0" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="13.89" length="28.25" shape="298.86,817.74 307.08,819.71 312.67,821.21 318.14,823.12 325.96,826.31"/>
+        <lane id=":clusterJ10_J4_J5_J6_#3more_8_1" index="1" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="13.89" length="28.25" shape="298.06,820.84 306.15,822.78 311.66,824.25 317.03,826.13 324.73,829.26"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_10" function="internal">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_10_0" index="0" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="11.02" length="14.64" shape="298.06,820.84 304.24,823.52 308.08,828.04 308.54,829.96"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_18" function="internal">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_18_0" index="0" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="8.51" length="5.29" shape="309.45,818.64 311.99,817.69 313.42,815.54"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_19" function="internal">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_19_0" index="0" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="11.02" length="12.78" shape="308.54,829.96 309.59,834.40 308.75,842.58"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_11" function="internal">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_11_0" index="0" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="8.50" length="11.79" shape="305.98,841.97 305.82,839.09 303.94,836.58 300.34,834.45 298.83,833.95"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_12" function="internal">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_12_0" index="0" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="13.89" length="27.46" shape="305.98,841.97 313.42,815.54"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_13" function="internal">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_13_0" index="0" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="10.20" length="4.59" shape="305.98,841.97 307.51,837.65"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_20" function="internal">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_20_0" index="0" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="8.50" length="4.01" shape="298.83,833.95 295.03,832.68"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_21" function="internal">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_21_0" index="0" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="10.20" length="22.29" shape="307.51,837.65 308.74,834.14 312.79,829.41 318.11,827.78 324.73,829.26"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_c0" function="crossing" crossingEdges="est_out est_in">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_c0_0" index="0" allow="pedestrian" speed="2.78" length="18.68" width="4.00" shape="324.73,824.06 317.52,841.29" outlineShape="326.58,824.83 319.37,842.06 316.86,841.14 315.55,840.82 322.96,823.12 323.48,823.41"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_c1" function="crossing" crossingEdges="sud_out sud_in">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_c1_0" index="0" allow="pedestrian" speed="2.78" length="5.75" width="4.00" shape="311.37,817.08 316.93,818.55" outlineShape="311.79,815.12 317.54,816.65 317.42,817.95 317.99,819.29 319.00,820.43 316.41,820.49 310.86,819.01 308.67,817.23 310.03,816.96 311.24,816.24"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_c2" function="crossing" crossingEdges="ovest_out ovest_in">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_c2_0" index="0" allow="pedestrian" speed="2.78" length="18.65" width="4.00" shape="296.57,834.73 301.18,816.65" outlineShape="294.63,834.23 299.24,816.16 299.30,816.07 299.27,816.19 302.82,816.93 303.16,816.98 298.46,835.43 294.63,834.23 294.14,836.17 302.47,841.19 304.42,841.63 304.44,840.13 303.80,838.75 302.50,837.47 300.53,836.29 298.46,835.43"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_c3" function="crossing" crossingEdges="nord_out nord_in">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_c3_0" index="0" allow="pedestrian" speed="2.78" length="6.02" width="4.00" shape="310.74,840.98 304.86,839.67" outlineShape="310.41,842.95 304.33,841.60 304.44,840.13 303.80,838.75 302.83,837.80 305.29,837.72 311.17,839.02 313.08,840.56 311.74,840.92 310.83,841.71"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_w0" function="walkingarea">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_w0_0" index="0" allow="pedestrian" speed="2.78" length="5.66" width="4.00" shape="310.31,842.93 312.26,843.36 318.59,843.92 319.38,842.08 316.86,841.14 314.76,840.63 313.05,840.56 311.74,840.92 310.83,841.71"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_w1" function="walkingarea">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_w1_0" index="0" allow="pedestrian" speed="2.78" length="7.68" width="4.00" shape="326.58,824.83 327.35,822.98 319.43,817.11 317.51,816.55 317.42,817.95 317.99,819.29 319.19,820.64 321.02,822.02 323.48,823.41"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_w2" function="walkingarea">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_w2_0" index="0" allow="pedestrian" speed="2.78" length="7.99" width="4.00" shape="311.87,815.14 309.93,814.64 299.74,814.25 299.27,816.19 302.82,816.93 305.81,817.31 308.22,817.32 310.03,816.96 311.24,816.24"/>
+    </edge>
+    <edge id=":clusterJ10_J4_J5_J6_#3more_w3" function="walkingarea">
+        <lane id=":clusterJ10_J4_J5_J6_#3more_w3_0" index="0" allow="pedestrian" speed="2.78" length="7.68" width="4.00" shape="294.63,834.23 294.14,836.17 302.47,841.19 304.42,841.63 304.44,840.13 303.80,838.75 302.50,837.47 300.53,836.29 297.91,835.21"/>
+    </edge>
+    <edge id=":est_end_w0" function="walkingarea">
+        <lane id=":est_end_w0_0" index="0" allow="pedestrian" speed="2.78" length="22.59" width="2.00" shape="583.23,954.41 582.45,956.25 592.01,933.59 591.24,935.43"/>
+    </edge>
+    <edge id=":ovest_end_w0" function="walkingarea">
+        <lane id=":ovest_end_w0_0" index="0" allow="pedestrian" speed="2.78" length="18.29" width="2.00" shape="21.49,748.55 21.99,746.61 17.00,766.28 17.49,764.34"/>
+    </edge>
+
+    <edge id="est_in" from="est_end" to="clusterJ10_J4_J5_J6_#3more" priority="11" type="highway.secondary" spreadType="center" shape="583.74,952.23 321.57,840.62">
+        <lane id="est_in_0" index="0" allow="pedestrian" speed="13.89" length="286.78" width="2.00" shape="582.84,955.33 318.99,843.00"/>
+        <lane id="est_in_1" index="1" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="13.89" length="286.78" shape="583.85,952.93 319.99,840.60"/>
+        <lane id="est_in_2" index="2" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="13.89" length="286.78" shape="585.10,949.98 321.22,837.65"/>
+    </edge>
+    <edge id="est_out" from="clusterJ10_J4_J5_J6_#3more" to="est_end" priority="11" type="highway.secondary" spreadType="center" shape="325.73,826.86 590.79,937.63">
+        <lane id="est_out_0" index="0" allow="pedestrian" speed="13.89" length="286.83" width="2.00" shape="326.96,823.91 591.62,934.51"/>
+        <lane id="est_out_1" index="1" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="13.89" length="286.83" shape="325.96,826.31 590.61,936.90"/>
+        <lane id="est_out_2" index="2" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="13.89" length="286.83" shape="324.73,829.26 589.37,939.85"/>
+    </edge>
+    <edge id="nord_in" from="J2" to="clusterJ10_J4_J5_J6_#3more" priority="10" type="highway.tertiary" shape="251.61,1123.28 254.09,1114.39 257.62,1102.89 265.36,1075.50 269.09,1058.92 278.58,1016.71 284.57,965.32 290.24,919.10 310.52,829.12">
+        <lane id="nord_in_0" index="0" allow="pedestrian" speed="13.89" length="286.83" width="2.00" shape="247.56,1122.15 250.06,1113.21 253.59,1101.70 261.29,1074.47 264.99,1058.00 274.43,1016.00 280.40,964.82 286.10,918.38 303.44,841.41"/>
+        <lane id="nord_in_1" index="1" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="13.89" length="286.83" shape="250.07,1122.85 252.55,1113.94 256.09,1102.44 263.81,1075.11 267.53,1058.57 277.00,1016.44 282.98,965.13 288.66,918.83 305.98,841.97"/>
+    </edge>
+    <edge id="nord_out" from="clusterJ10_J4_J5_J6_#3more" to="J2" priority="10" type="highway.tertiary" shape="308.72,835.28 290.24,919.10 284.57,965.32 278.58,1016.71 269.09,1058.92 265.36,1075.50 257.62,1102.89 254.09,1114.39 251.61,1123.28">
+        <lane id="nord_out_0" index="0" allow="pedestrian" speed="13.89" length="287.15" width="2.00" shape="311.29,843.14 294.38,919.81 288.74,965.82 282.73,1017.42 273.19,1059.84 269.43,1076.53 261.65,1104.08 258.12,1115.57 255.66,1124.41"/>
+        <lane id="nord_out_1" index="1" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="13.89" length="287.15" shape="308.75,842.58 291.82,919.37 286.16,965.51 280.16,1016.98 270.65,1059.27 266.91,1075.89 259.15,1103.34 255.63,1114.84 253.15,1123.71"/>
+    </edge>
+    <edge id="ovest_in" from="ovest_end" to="clusterJ10_J4_J5_J6_#3more" priority="11" type="highway.secondary" spreadType="center" shape="20.68,750.61 70.98,763.57 130.80,778.61 199.43,794.44 298.67,818.31">
+        <lane id="ovest_in_0" index="0" allow="pedestrian" speed="13.89" length="285.88" width="2.00" shape="21.74,747.58 71.77,760.47 131.55,775.50 200.16,791.33 299.50,815.22"/>
+        <lane id="ovest_in_1" index="1" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="13.89" length="285.88" shape="21.10,750.10 71.13,762.99 130.94,778.03 199.57,793.86 298.86,817.74"/>
+        <lane id="ovest_in_2" index="2" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="13.89" length="285.88" shape="20.32,753.20 70.34,766.09 130.19,781.14 198.83,796.97 298.06,820.84"/>
+    </edge>
+    <edge id="ovest_out" from="clusterJ10_J4_J5_J6_#3more" to="ovest_end" priority="11" type="highway.secondary" spreadType="center" shape="295.18,832.10 196.50,806.82 128.24,789.72 68.35,774.79 18.24,762.26">
+        <lane id="ovest_out_0" index="0" allow="pedestrian" speed="13.89" length="285.83" width="2.00" shape="294.39,835.20 195.71,809.92 127.46,792.82 67.57,777.89 17.24,765.31"/>
+        <lane id="ovest_out_1" index="1" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="13.89" length="285.83" shape="295.03,832.68 196.35,807.40 128.09,790.30 68.20,775.37 17.88,762.79"/>
+        <lane id="ovest_out_2" index="2" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="13.89" length="285.83" shape="295.83,829.58 197.14,804.30 128.87,787.20 68.98,772.27 18.67,759.69"/>
+    </edge>
+    <edge id="sud_in" from="J3" to="clusterJ10_J4_J5_J6_#3more" priority="10" type="highway.tertiary" shape="403.20,543.80 400.27,550.40 379.52,597.02 357.33,668.51 339.57,722.54 319.46,798.40 310.52,829.12">
+        <lane id="sud_in_0" index="0" allow="pedestrian" speed="13.89" length="286.09" width="2.00" shape="407.04,545.50 404.11,552.11 383.46,598.50 361.33,669.79 343.60,723.73 323.51,799.53 318.47,816.83"/>
+        <lane id="sud_in_1" index="1" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="13.89" length="286.09" shape="404.66,544.45 401.73,551.05 381.02,597.58 358.85,669.00 341.10,723.00 321.00,798.83 315.95,816.19"/>
+    </edge>
+    <edge id="sud_out" from="clusterJ10_J4_J5_J6_#3more" to="J3" priority="10" type="highway.tertiary" shape="313.51,821.62 319.46,798.40 339.57,722.54 357.33,668.51 379.52,597.02 400.27,550.40 403.20,543.80">
+        <lane id="sud_out_0" index="0" allow="pedestrian" speed="13.89" length="287.04" width="2.00" shape="310.90,814.89 315.40,797.34 335.54,721.35 353.33,667.23 375.58,595.54 396.43,548.69 399.36,542.10"/>
+        <lane id="sud_out_1" index="1" disallow="pedestrian tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="13.89" length="287.04" shape="313.42,815.54 317.91,798.00 338.04,722.08 355.81,668.02 378.02,596.46 398.81,549.75 401.74,543.15"/>
+    </edge>
+
+    <tlLogic id="tls_1" type="static" programID="0" offset="0">
+        <phase duration="37" state="gGGgrrrgGGgrrrrGrG"/>
+        <phase duration="5"  state="gGGgrrrgGGgrrrrrrr"/>
+        <phase duration="3"  state="yyyyrrryyyyrrrrrrr"/>
+        <phase duration="37" state="rrrrgGgrrrrgGgGrGr"/>
+        <phase duration="5"  state="rrrrgGgrrrrgGgrrrr"/>
+        <phase duration="3"  state="rrrryyyrrrryyyrrrr"/>
+    </tlLogic>
+
+    <junction id="J2" type="dead_end" x="251.61" y="1123.28" incLanes="nord_out_0 nord_out_1" intLanes="" shape="251.61,1123.28 256.62,1124.68 251.61,1123.28"/>
+    <junction id="J3" type="dead_end" x="403.20" y="543.80" incLanes="sud_out_0 sud_out_1" intLanes="" shape="403.20,543.80 398.45,541.69 403.20,543.80"/>
+    <junction id="clusterJ10_J4_J5_J6_#3more" type="traffic_light" x="310.52" y="829.12" incLanes="est_in_0 est_in_1 est_in_2 sud_in_0 sud_in_1 ovest_in_0 ovest_in_1 ovest_in_2 nord_in_0 nord_in_1 :clusterJ10_J4_J5_J6_#3more_w1_0 :clusterJ10_J4_J5_J6_#3more_w2_0 :clusterJ10_J4_J5_J6_#3more_w3_0 :clusterJ10_J4_J5_J6_#3more_w0_0" intLanes=":clusterJ10_J4_J5_J6_#3more_14_0 :clusterJ10_J4_J5_J6_#3more_1_0 :clusterJ10_J4_J5_J6_#3more_1_1 :clusterJ10_J4_J5_J6_#3more_15_0 :clusterJ10_J4_J5_J6_#3more_16_0 :clusterJ10_J4_J5_J6_#3more_5_0 :clusterJ10_J4_J5_J6_#3more_17_0 :clusterJ10_J4_J5_J6_#3more_18_0 :clusterJ10_J4_J5_J6_#3more_8_0 :clusterJ10_J4_J5_J6_#3more_8_1 :clusterJ10_J4_J5_J6_#3more_19_0 :clusterJ10_J4_J5_J6_#3more_20_0 :clusterJ10_J4_J5_J6_#3more_12_0 :clusterJ10_J4_J5_J6_#3more_21_0 :clusterJ10_J4_J5_J6_#3more_c0_0 :clusterJ10_J4_J5_J6_#3more_c1_0 :clusterJ10_J4_J5_J6_#3more_c2_0 :clusterJ10_J4_J5_J6_#3more_c3_0" shape="318.60,843.92 327.35,822.98 324.75,821.82 322.66,820.73 321.08,819.72 320.02,818.77 319.47,817.89 319.44,817.08 309.93,814.64 308.58,815.46 307.14,815.51 305.19,815.33 302.72,814.91 299.75,814.25 294.14,836.17 296.85,836.95 299.04,837.75 300.69,838.57 301.82,839.42 302.41,840.30 302.47,841.20 312.26,843.36 313.16,842.55 314.06,842.52 315.27,842.74 316.78,843.21">
+        <request index="0"  response="100100000000000000" foes="100100010000100000" cont="1"/>
+        <request index="1"  response="010110100000000000" foes="010111110001100000" cont="0"/>
+        <request index="2"  response="010110000001000000" foes="010111110001100000" cont="0"/>
+        <request index="3"  response="001110001111000000" foes="001111001111100000" cont="1"/>
+        <request index="4"  response="001100001100000000" foes="001100001100000000" cont="1"/>
+        <request index="5"  response="101000011100001111" foes="101010011100001111" cont="0"/>
+        <request index="6"  response="011001011100001110" foes="011001011100001110" cont="1"/>
+        <request index="7"  response="011000000000000000" foes="011001000000001000" cont="1"/>
+        <request index="8"  response="010100000001010000" foes="010111000001111000" cont="0"/>
+        <request index="9"  response="010110000001000000" foes="010111000001111000" cont="0"/>
+        <request index="10" response="110010000001000111" foes="110011000001100111" cont="1"/>
+        <request index="11" response="110000000000000110" foes="110000000000000110" cont="1"/>
+        <request index="12" response="101000011110001110" foes="101000011111001110" cont="0"/>
+        <request index="13" response="100100011100101110" foes="100100011100101110" cont="1"/>
+        <request index="14" response="000000000000000000" foes="000010001100011111" cont="0"/>
+        <request index="15" response="000000000000000000" foes="000001000011111000" cont="0"/>
+        <request index="16" response="000000000000000000" foes="000000111111000110" cont="0"/>
+        <request index="17" response="000000000000000000" foes="000011110000100001" cont="0"/>
+    </junction>
+    <junction id="est_end" type="dead_end" x="587.27" y="944.93" incLanes="est_out_0 est_out_1 est_out_2" intLanes="" shape="585.74,948.52 582.45,956.25 592.01,933.59 588.77,941.34"/>
+    <junction id="ovest_end" type="dead_end" x="19.46" y="756.43" incLanes="ovest_out_0 ovest_out_1 ovest_out_2" intLanes="" shape="19.89,754.74 21.99,746.61 17.00,766.28 19.04,758.13"/>
+
+    <junction id=":clusterJ10_J4_J5_J6_#3more_14_0" type="internal" x="311.87" y="839.18" incLanes=":clusterJ10_J4_J5_J6_#3more_0_0" intLanes=":clusterJ10_J4_J5_J6_#3more_5_0 :clusterJ10_J4_J5_J6_#3more_10_0 :clusterJ10_J4_J5_J6_#3more_c0_0 :clusterJ10_J4_J5_J6_#3more_c3_0"/>
+    <junction id=":clusterJ10_J4_J5_J6_#3more_15_0" type="internal" x="312.91" y="827.55" incLanes=":clusterJ10_J4_J5_J6_#3more_3_0 ovest_in_1 ovest_in_2" intLanes=":clusterJ10_J4_J5_J6_#3more_5_0 :clusterJ10_J4_J5_J6_#3more_6_0 :clusterJ10_J4_J5_J6_#3more_7_0 :clusterJ10_J4_J5_J6_#3more_8_0 :clusterJ10_J4_J5_J6_#3more_8_1 :clusterJ10_J4_J5_J6_#3more_12_0 :clusterJ10_J4_J5_J6_#3more_13_0 :clusterJ10_J4_J5_J6_#3more_c0_0 :clusterJ10_J4_J5_J6_#3more_c1_0"/>
+    <junction id=":clusterJ10_J4_J5_J6_#3more_16_0" type="internal" x="322.37" y="824.53" incLanes=":clusterJ10_J4_J5_J6_#3more_4_0" intLanes=":clusterJ10_J4_J5_J6_#3more_8_0 :clusterJ10_J4_J5_J6_#3more_8_1 :clusterJ10_J4_J5_J6_#3more_13_0 :clusterJ10_J4_J5_J6_#3more_c0_0 :clusterJ10_J4_J5_J6_#3more_c1_0"/>
+    <junction id=":clusterJ10_J4_J5_J6_#3more_17_0" type="internal" x="315.58" y="817.04" incLanes=":clusterJ10_J4_J5_J6_#3more_6_0 nord_in_1" intLanes=":clusterJ10_J4_J5_J6_#3more_1_0 :clusterJ10_J4_J5_J6_#3more_1_1 :clusterJ10_J4_J5_J6_#3more_3_0 :clusterJ10_J4_J5_J6_#3more_8_0 :clusterJ10_J4_J5_J6_#3more_8_1 :clusterJ10_J4_J5_J6_#3more_10_0 :clusterJ10_J4_J5_J6_#3more_11_0 :clusterJ10_J4_J5_J6_#3more_12_0 :clusterJ10_J4_J5_J6_#3more_c1_0 :clusterJ10_J4_J5_J6_#3more_c2_0"/>
+    <junction id=":clusterJ10_J4_J5_J6_#3more_18_0" type="internal" x="309.45" y="818.64" incLanes=":clusterJ10_J4_J5_J6_#3more_7_0" intLanes=":clusterJ10_J4_J5_J6_#3more_3_0 :clusterJ10_J4_J5_J6_#3more_12_0 :clusterJ10_J4_J5_J6_#3more_c1_0 :clusterJ10_J4_J5_J6_#3more_c2_0"/>
+    <junction id=":clusterJ10_J4_J5_J6_#3more_19_0" type="internal" x="308.54" y="829.96" incLanes=":clusterJ10_J4_J5_J6_#3more_10_0 est_in_1 est_in_2" intLanes=":clusterJ10_J4_J5_J6_#3more_0_0 :clusterJ10_J4_J5_J6_#3more_1_0 :clusterJ10_J4_J5_J6_#3more_1_1 :clusterJ10_J4_J5_J6_#3more_5_0 :clusterJ10_J4_J5_J6_#3more_6_0 :clusterJ10_J4_J5_J6_#3more_12_0 :clusterJ10_J4_J5_J6_#3more_13_0 :clusterJ10_J4_J5_J6_#3more_c2_0 :clusterJ10_J4_J5_J6_#3more_c3_0"/>
+    <junction id=":clusterJ10_J4_J5_J6_#3more_20_0" type="internal" x="298.83" y="833.95" incLanes=":clusterJ10_J4_J5_J6_#3more_11_0" intLanes=":clusterJ10_J4_J5_J6_#3more_1_0 :clusterJ10_J4_J5_J6_#3more_1_1 :clusterJ10_J4_J5_J6_#3more_6_0 :clusterJ10_J4_J5_J6_#3more_c2_0 :clusterJ10_J4_J5_J6_#3more_c3_0"/>
+    <junction id=":clusterJ10_J4_J5_J6_#3more_21_0" type="internal" x="307.51" y="837.65" incLanes=":clusterJ10_J4_J5_J6_#3more_13_0 sud_in_1" intLanes=":clusterJ10_J4_J5_J6_#3more_1_0 :clusterJ10_J4_J5_J6_#3more_1_1 :clusterJ10_J4_J5_J6_#3more_3_0 :clusterJ10_J4_J5_J6_#3more_4_0 :clusterJ10_J4_J5_J6_#3more_5_0 :clusterJ10_J4_J5_J6_#3more_8_0 :clusterJ10_J4_J5_J6_#3more_8_1 :clusterJ10_J4_J5_J6_#3more_10_0 :clusterJ10_J4_J5_J6_#3more_c0_0 :clusterJ10_J4_J5_J6_#3more_c3_0"/>
+
+    <connection from="est_in" to="nord_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_0_0" tl="tls_1" linkIndex="0" dir="r" state="o"/>
+    <connection from="est_in" to="ovest_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_1_0" tl="tls_1" linkIndex="1" dir="s" state="o"/>
+    <connection from="est_in" to="ovest_out" fromLane="2" toLane="2" via=":clusterJ10_J4_J5_J6_#3more_1_1" tl="tls_1" linkIndex="2" dir="s" state="o"/>
+    <connection from="est_in" to="sud_out" fromLane="2" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_3_0" tl="tls_1" linkIndex="3" dir="l" state="o"/>
+    <connection from="nord_in" to="ovest_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_11_0" tl="tls_1" linkIndex="11" dir="r" state="o"/>
+    <connection from="nord_in" to="sud_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_12_0" tl="tls_1" linkIndex="12" dir="s" state="o"/>
+    <connection from="nord_in" to="est_out" fromLane="1" toLane="2" via=":clusterJ10_J4_J5_J6_#3more_13_0" tl="tls_1" linkIndex="13" dir="l" state="o"/>
+    <connection from="ovest_in" to="sud_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_7_0" tl="tls_1" linkIndex="7" dir="r" state="o"/>
+    <connection from="ovest_in" to="est_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_8_0" tl="tls_1" linkIndex="8" dir="s" state="o"/>
+    <connection from="ovest_in" to="est_out" fromLane="2" toLane="2" via=":clusterJ10_J4_J5_J6_#3more_8_1" tl="tls_1" linkIndex="9" dir="s" state="o"/>
+    <connection from="ovest_in" to="nord_out" fromLane="2" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_10_0" tl="tls_1" linkIndex="10" dir="l" state="o"/>
+    <connection from="sud_in" to="est_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_4_0" tl="tls_1" linkIndex="4" dir="r" state="o"/>
+    <connection from="sud_in" to="nord_out" fromLane="1" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_5_0" tl="tls_1" linkIndex="5" dir="s" state="o"/>
+    <connection from="sud_in" to="ovest_out" fromLane="1" toLane="2" via=":clusterJ10_J4_J5_J6_#3more_6_0" tl="tls_1" linkIndex="6" dir="l" state="o"/>
+
+    <connection from=":clusterJ10_J4_J5_J6_#3more_0" to="nord_out" fromLane="0" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_14_0" dir="r" state="m"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_14" to="nord_out" fromLane="0" toLane="1" dir="r" state="m"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_1" to="ovest_out" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_1" to="ovest_out" fromLane="1" toLane="2" dir="s" state="M"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_3" to="sud_out" fromLane="0" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_15_0" dir="l" state="m"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_15" to="sud_out" fromLane="0" toLane="1" dir="l" state="m"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_4" to="est_out" fromLane="0" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_16_0" dir="r" state="m"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_16" to="est_out" fromLane="0" toLane="1" dir="r" state="m"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_5" to="nord_out" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_6" to="ovest_out" fromLane="0" toLane="2" via=":clusterJ10_J4_J5_J6_#3more_17_0" dir="l" state="m"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_17" to="ovest_out" fromLane="0" toLane="2" dir="l" state="m"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_7" to="sud_out" fromLane="0" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_18_0" dir="r" state="m"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_18" to="sud_out" fromLane="0" toLane="1" dir="r" state="m"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_8" to="est_out" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_8" to="est_out" fromLane="1" toLane="2" dir="s" state="M"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_10" to="nord_out" fromLane="0" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_19_0" dir="l" state="m"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_19" to="nord_out" fromLane="0" toLane="1" dir="l" state="m"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_11" to="ovest_out" fromLane="0" toLane="1" via=":clusterJ10_J4_J5_J6_#3more_20_0" dir="r" state="m"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_20" to="ovest_out" fromLane="0" toLane="1" dir="r" state="m"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_12" to="sud_out" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_13" to="est_out" fromLane="0" toLane="2" via=":clusterJ10_J4_J5_J6_#3more_21_0" dir="l" state="m"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_21" to="est_out" fromLane="0" toLane="2" dir="l" state="m"/>
+
+    <connection from=":J2_w0" to="nord_in" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from="nord_out" to=":J2_w0" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":J3_w0" to="sud_in" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from="sud_out" to=":J3_w0" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_c0" to=":clusterJ10_J4_J5_J6_#3more_w0" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_c1" to=":clusterJ10_J4_J5_J6_#3more_w1" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_c2" to=":clusterJ10_J4_J5_J6_#3more_w2" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_c3" to=":clusterJ10_J4_J5_J6_#3more_w3" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_w0" to=":clusterJ10_J4_J5_J6_#3more_c3" fromLane="0" toLane="0" tl="tls_1" linkIndex="17" dir="s" state="M"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_w0" to="nord_out" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from="est_in" to=":clusterJ10_J4_J5_J6_#3more_w0" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_w1" to=":clusterJ10_J4_J5_J6_#3more_c0" fromLane="0" toLane="0" tl="tls_1" linkIndex="14" dir="s" state="M"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_w1" to="est_out" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from="sud_in" to=":clusterJ10_J4_J5_J6_#3more_w1" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_w2" to=":clusterJ10_J4_J5_J6_#3more_c1" fromLane="0" toLane="0" tl="tls_1" linkIndex="15" dir="s" state="M"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_w2" to="sud_out" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from="ovest_in" to=":clusterJ10_J4_J5_J6_#3more_w2" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_w3" to=":clusterJ10_J4_J5_J6_#3more_c2" fromLane="0" toLane="0" tl="tls_1" linkIndex="16" dir="s" state="M"/>
+    <connection from=":clusterJ10_J4_J5_J6_#3more_w3" to="ovest_out" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from="nord_in" to=":clusterJ10_J4_J5_J6_#3more_w3" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":est_end_w0" to="est_in" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from="est_out" to=":est_end_w0" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":ovest_end_w0" to="ovest_in" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from="ovest_out" to=":ovest_end_w0" fromLane="0" toLane="0" dir="s" state="M"/>
+</net>

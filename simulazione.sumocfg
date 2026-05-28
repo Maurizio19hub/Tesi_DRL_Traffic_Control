@@ -1,7 +1,7 @@
 <configuration>
     <input>
-        <net-file value="incrocio3.net.xml"/>
-        <route-files value="flussi_calibrati.rou.xml, pedoni.rou.xml"/>
+        <net-file value="incrocio3_300mf.net.xml"/>
+        <route-files value="new_sumo_flow_gen/flussi_calibrati_6_7.rou.xml, pedoni.rou.xml"/>
         <additional-files value="tls.tll.xml"/>
     </input>
     <time>
