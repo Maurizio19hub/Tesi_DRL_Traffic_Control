@@ -37,7 +37,7 @@ def get_time_slot(dt):
     return None
 
 def is_monday_or_tuesday(dt):
-    return dt.weekday() in (0, 1)
+    return dt.weekday() in (0, 4)
 
 def load_mappings(definition_path):
     approach_map = {}

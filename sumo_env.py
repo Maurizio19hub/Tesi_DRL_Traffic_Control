@@ -72,7 +72,7 @@ class MyEnv(gym.Env):
 		# Generazione percorsi Pedoni con nuovo seed
 		subprocess.run([
 			"python", os.path.join(os.environ['SUMO_HOME'], 'tools', 'randomTrips.py'),
-			"-n", "incrocio3.net.xml",
+			"-n", "incrocio3_300mf.net.xml",
 			"-e", "3600",
 			"-p", "3.0",
 			"--persontrips",
@@ -82,12 +82,12 @@ class MyEnv(gym.Env):
 
 		
 		sumo_cmd = [
-			"sumo", "-c", self.sumo_cfg, # sumo-gui se vogli la modalità grafica
+			"sumo-gui", "-c", self.sumo_cfg, # sumo-gui se vogli la modalità grafica
 			"--seed", str(sumo_seed),
 			"--waiting-time-memory", "1000", # serve per manternere memoria del tempo di attesa del veicolo per 1000s
 			"--no-step-log", "true", # non riempie terminale
-			#"--start", "true",  # avvia automaticamente senza premere play (sumo-gui)
-			#"--delay", "100",  # 100ms tra ogni step = velocità normal
+			"--start", "true",  # avvia automaticamente senza premere play (sumo-gui)
+			"--delay", "100",  # 100ms tra ogni step = velocità normal
 			"--time-to-teleport", "100",
 			"--collision.action", "teleport",
 			"--collision.mingap-factor", "0",
@@ -273,4 +273,7 @@ class MyEnv(gym.Env):
 			self.last_cost = current_cost
 			return 0
 		self.last_cost = current_cost
-		return (ret + balance_bonus)*20
+
+		long_green_penalty = -max(0, self.time_since_last_change - 60) * 0.005
+
+		return (ret + balance_bonus)*20 + long_green_penalty

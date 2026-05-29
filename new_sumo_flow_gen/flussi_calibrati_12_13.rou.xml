@@ -3,35 +3,36 @@
     <vType id="carro" acceleration="2.6" deceleration="4.5" length="5" maxSpeed="13.89"/>
 
     <routeDistribution id="svolte_est">
-        <route edges="est_in sud_out" cost="1" probability="0.0843"/>
-        <route edges="est_in nord_out" cost="1" probability="0.1917"/>
-        <route edges="est_in ovest_out" cost="1" probability="0.7240"/>
+        <route edges="est_in sud_out" cost="1" probability="0.0929"/>
+        <route edges="est_in nord_out" cost="1" probability="0.2275"/>
+        <route edges="est_in ovest_out" cost="1" probability="0.6796"/>
     </routeDistribution>
 
-    <flow id="flow_est" begin="0" end="3600" vehsPerHour="459.9" type="carro" route="svolte_est"/>
+    <flow id="flow_est" begin="0" end="3600" vehsPerHour="459.1" type="carro" route="svolte_est"/>
 
     <routeDistribution id="svolte_ovest">
-        <route edges="ovest_in est_out" cost="1" probability="0.5713"/>
-        <route edges="ovest_in sud_out" cost="1" probability="0.2630"/>
-        <route edges="ovest_in nord_out" cost="1" probability="0.1401"/>
+        <route edges="ovest_in est_out" cost="1" probability="0.5687"/>
+        <route edges="ovest_in sud_out" cost="1" probability="0.2618"/>
+        <route edges="ovest_in nord_out" cost="1" probability="0.1411"/>
     </routeDistribution>
 
-    <flow id="flow_ovest" begin="0" end="3600" vehsPerHour="520.4" type="carro" route="svolte_ovest"/>
+    <flow id="flow_ovest" begin="0" end="3600" vehsPerHour="533.0" type="carro" route="svolte_ovest"/>
 
     <routeDistribution id="svolte_nord">
-        <route edges="nord_in est_out" cost="1" probability="0.1113"/>
-        <route edges="nord_in sud_out" cost="1" probability="0.6400"/>
-        <route edges="nord_in ovest_out" cost="1" probability="0.2488"/>
+        <route edges="nord_in est_out" cost="1" probability="0.1070"/>
+        <route edges="nord_in sud_out" cost="1" probability="0.6501"/>
+        <route edges="nord_in ovest_out" cost="1" probability="0.2429"/>
     </routeDistribution>
 
-    <flow id="flow_nord" begin="0" end="3600" vehsPerHour="336.2" type="carro" route="svolte_nord"/>
+    <flow id="flow_nord" begin="0" end="3600" vehsPerHour="355.0" type="carro" route="svolte_nord"/>
 
     <routeDistribution id="svolte_sud">
-        <route edges="sud_in est_out" cost="1" probability="0.1082"/>
-        <route edges="sud_in nord_out" cost="1" probability="0.5757"/>
-        <route edges="sud_in ovest_out" cost="1" probability="0.2808"/>
+        <route edges="sud_in est_out" cost="1" probability="0.1117"/>
+        <route edges="sud_in nord_out" cost="1" probability="0.5853"/>
+        <route edges="sud_in ovest_out" cost="1" probability="0.2671"/>
+
     </routeDistribution>
 
-    <flow id="flow_sud" begin="0" end="3600" vehsPerHour="294.1" type="carro" route="svolte_sud"/>
+    <flow id="flow_sud" begin="0" end="3600" vehsPerHour="308.5" type="carro" route="svolte_sud"/>
 
 </routes>
