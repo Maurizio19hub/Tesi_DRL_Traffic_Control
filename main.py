@@ -5,11 +5,11 @@ from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize
 from sumo_env import MyEnv
 
 if __name__ == "__main__":
-    save_dir = "models/correct_time/t16_f2"
+    save_dir = "models/correct_time/t17_f2"
     os.makedirs(save_dir, exist_ok=True)
 
     env = MyEnv()
-    env = Monitor(env)
+    env = Monitor(env, filename=save_dir)
     env = DummyVecEnv([lambda: env])
     env = VecNormalize(env, norm_obs=True, norm_reward=True, clip_obs=10.0)
 

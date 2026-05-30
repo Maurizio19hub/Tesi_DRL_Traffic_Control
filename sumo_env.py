@@ -31,6 +31,14 @@ class MyEnv(gym.Env):
 			"ovest": ("ovest_in", 2),
 		}
 
+		#Usato per calcolo della pressure
+		self.outbound_map = {
+			"nord_in": "nord_out", # Edge che prosegue verso Nord partendo dal semaforo
+			"sud_in": "sud_out",
+			"est_in":  "est_out",
+			"ovest_in":  "ovest_out"
+		}
+
 		self.max_speed = 13.89 # massima velocità sulle strade, corrisponde a limite di 5O
 
 		self.max_waiting_time = 90.0
@@ -235,6 +243,7 @@ class MyEnv(gym.Env):
 	def _get_cost(self):
 		queue_values   = []
 		waiting_values = []
+		total_halting_out = 0.0
 
 		for branch_name, edge_ids in self.branches.items():
 			edge, num_lanes = edge_ids
@@ -243,6 +252,8 @@ class MyEnv(gym.Env):
 			queue_norm    = min((total_halting * 5) / (total_length * num_lanes), 1.0)
 			queue_values.append(queue_norm)
 
+			total_halting_out += traci.edge.getLastStepHaltingNumber(self.outbound_map[edge])
+
 			veh_count    = max(traci.edge.getLastStepVehicleNumber(edge), 1)
 			waiting_mean = traci.edge.getWaitingTime(edge) / veh_count
 			waiting_norm = min(waiting_mean / self.max_waiting_time, 1.0)
@@ -250,6 +261,8 @@ class MyEnv(gym.Env):
 
 		total_queue   = sum(queue_values)
 		total_waiting = sum(waiting_values)
+
+		total_pressure = max(0, total_queue - total_halting_out)
 
 		balance_bonus = 0.0
 		'''
@@ -267,8 +280,9 @@ class MyEnv(gym.Env):
 		#print(f"TOTAL QUEUE : {total_queue}")
 		#print(f"TOTAL WAITING : {total_waiting}")
 		
-		current_cost = (total_queue*1.5) + 2*total_waiting
+		current_cost = (total_queue*1.5) + (2*total_waiting) + (total_pressure*1.0)
 		ret = self.last_cost - current_cost
+
 		if self.last_cost == 0: 
 			self.last_cost = current_cost
 			return 0
