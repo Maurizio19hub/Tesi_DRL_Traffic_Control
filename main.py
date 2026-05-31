@@ -5,7 +5,7 @@ from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize
 from sumo_env import MyEnv
 
 if __name__ == "__main__":
-    save_dir = "models/correct_time/t17_f2"
+    save_dir = "models/correct_time/t18energy_f2"
     os.makedirs(save_dir, exist_ok=True)
 
     env = MyEnv()

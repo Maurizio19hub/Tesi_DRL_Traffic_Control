@@ -90,12 +90,12 @@ class MyEnv(gym.Env):
 
 		
 		sumo_cmd = [
-			"sumo-gui", "-c", self.sumo_cfg, # sumo-gui se vogli la modalità grafica
+			"sumo", "-c", self.sumo_cfg, # sumo-gui se vogli la modalità grafica
 			"--seed", str(sumo_seed),
 			"--waiting-time-memory", "1000", # serve per manternere memoria del tempo di attesa del veicolo per 1000s
 			"--no-step-log", "true", # non riempie terminale
-			"--start", "true",  # avvia automaticamente senza premere play (sumo-gui)
-			"--delay", "100",  # 100ms tra ogni step = velocità normal
+			#"--start", "true",  # avvia automaticamente senza premere play (sumo-gui)
+			#"--delay", "100",  # 100ms tra ogni step = velocità normal
 			"--time-to-teleport", "100",
 			"--collision.action", "teleport",
 			"--collision.mingap-factor", "0",
@@ -279,8 +279,11 @@ class MyEnv(gym.Env):
 
 		#print(f"TOTAL QUEUE : {total_queue}")
 		#print(f"TOTAL WAITING : {total_waiting}")
+
+		energy_penalty = self._get_energy_penalty()
+		#print(f"energy={energy_penalty:.3f} queue={total_queue:.3f} waiting={total_waiting:.3f}")
 		
-		current_cost = (total_queue*1.5) + (2*total_waiting) + (total_pressure*1.0)
+		current_cost = (total_queue*1.5) + (2*total_waiting) + (total_pressure*1.0) + (energy_penalty*0.01)
 		ret = self.last_cost - current_cost
 
 		if self.last_cost == 0: 
@@ -291,3 +294,22 @@ class MyEnv(gym.Env):
 		long_green_penalty = -max(0, self.time_since_last_change - 60) * 0.005
 
 		return (ret + balance_bonus)*20 + long_green_penalty
+
+
+	def _get_energy_penalty(self):
+		energy_cost = 0.0
+		for branch_name, edge_ids in self.branches.items():
+			edge, num_lanes = edge_ids
+			veh_count  = traci.edge.getLastStepVehicleNumber(edge)
+			if veh_count == 0:
+				continue
+			mean_speed = traci.edge.getLastStepMeanSpeed(edge)
+			halting    = traci.edge.getLastStepHaltingNumber(edge)
+			# Veicoli fermi — idle consumption
+			idle_cost   = halting * 0.5
+			# Veicoli lenti ma in movimento
+			moving      = veh_count - halting
+			moving_cost = moving * (1 - mean_speed / self.max_speed) * 0.2
+			energy_cost += idle_cost + moving_cost
+			
+		return energy_cost
