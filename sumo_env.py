@@ -90,12 +90,12 @@ class MyEnv(gym.Env):
 
 		
 		sumo_cmd = [
-			"sumo", "-c", self.sumo_cfg, # sumo-gui se vogli la modalità grafica
+			"sumo-gui", "-c", self.sumo_cfg, # sumo-gui se vogli la modalità grafica
 			"--seed", str(sumo_seed),
 			"--waiting-time-memory", "1000", # serve per manternere memoria del tempo di attesa del veicolo per 1000s
 			"--no-step-log", "true", # non riempie terminale
-			#"--start", "true",  # avvia automaticamente senza premere play (sumo-gui)
-			#"--delay", "100",  # 100ms tra ogni step = velocità normal
+			"--start", "true",  # avvia automaticamente senza premere play (sumo-gui)
+			"--delay", "100",  # 100ms tra ogni step = velocità normal
 			"--time-to-teleport", "100",
 			"--collision.action", "teleport",
 			"--collision.mingap-factor", "0",
@@ -179,6 +179,10 @@ class MyEnv(gym.Env):
 	
 	def step(self, action):
 		
+		collisions = traci.simulation.getCollisions()
+		if len(collisions) > 0:
+			print(f"step={self.current_step} collisioni={len(collisions)}")
+		
 		# Applica l'azione solo se siamo in verde e il tempo minimo è rispettato
 		if action == 1 and self.time_since_last_change >= self.min_green_duration and not self.in_yellow:
 			# Inizia la transizione — imposta giallo
@@ -213,7 +217,7 @@ class MyEnv(gym.Env):
 			return np.zeros(19, dtype=np.float32), 0.0, True, False, {}
 
 		obs    = self._get_observation()
-		# aggiunta di un premio sul throughput
+		
 		reward = self._get_cost()
 
 		terminated = self.current_step >= self.max_steps
@@ -252,7 +256,7 @@ class MyEnv(gym.Env):
 			queue_norm    = min((total_halting * 5) / (total_length * num_lanes), 1.0)
 			queue_values.append(queue_norm)
 
-			total_halting_out += traci.edge.getLastStepHaltingNumber(self.outbound_map[edge])
+			#total_halting_out += traci.edge.getLastStepHaltingNumber(self.outbound_map[edge])
 
 			veh_count    = max(traci.edge.getLastStepVehicleNumber(edge), 1)
 			waiting_mean = traci.edge.getWaitingTime(edge) / veh_count
@@ -262,7 +266,7 @@ class MyEnv(gym.Env):
 		total_queue   = sum(queue_values)
 		total_waiting = sum(waiting_values)
 
-		total_pressure = max(0, total_queue - total_halting_out)
+		#total_pressure = max(0, total_queue - total_halting_out)
 
 		balance_bonus = 0.0
 		'''
@@ -283,7 +287,7 @@ class MyEnv(gym.Env):
 		energy_penalty = self._get_energy_penalty()
 		#print(f"energy={energy_penalty:.3f} queue={total_queue:.3f} waiting={total_waiting:.3f}")
 		
-		current_cost = (total_queue*1.5) + (2*total_waiting) + (total_pressure*1.0) + (energy_penalty*0.01)
+		current_cost = (total_queue*2.5) + (2*total_waiting) + (energy_penalty*0.01) #(total_pressure*1.0)
 		ret = self.last_cost - current_cost
 
 		if self.last_cost == 0: 
@@ -293,7 +297,11 @@ class MyEnv(gym.Env):
 
 		long_green_penalty = -max(0, self.time_since_last_change - 60) * 0.005
 
-		return (ret + balance_bonus)*20 + long_green_penalty
+		#collisions = len(traci.simulation.getCollisions())
+		#collision_term = 0.01 if collisions == 0 else -collisions * 2.0
+		
+
+		return (ret + balance_bonus)*20 + long_green_penalty  #+ collision_term
 
 
 	def _get_energy_penalty(self):
