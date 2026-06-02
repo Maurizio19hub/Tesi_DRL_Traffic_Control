@@ -179,9 +179,9 @@ class MyEnv(gym.Env):
 	
 	def step(self, action):
 		
-		collisions = traci.simulation.getCollisions()
-		if len(collisions) > 0:
-			print(f"step={self.current_step} collisioni={len(collisions)}")
+		#collisions = traci.simulation.getCollisions()
+		#if len(collisions) > 0:
+			#print(f"step={self.current_step} collisioni={len(collisions)}")
 		
 		# Applica l'azione solo se siamo in verde e il tempo minimo è rispettato
 		if action == 1 and self.time_since_last_change >= self.min_green_duration and not self.in_yellow:
@@ -247,7 +247,7 @@ class MyEnv(gym.Env):
 	def _get_cost(self):
 		queue_values   = []
 		waiting_values = []
-		total_halting_out = 0.0
+		total_throughput = 0.0
 
 		for branch_name, edge_ids in self.branches.items():
 			edge, num_lanes = edge_ids
@@ -256,17 +256,15 @@ class MyEnv(gym.Env):
 			queue_norm    = min((total_halting * 5) / (total_length * num_lanes), 1.0)
 			queue_values.append(queue_norm)
 
-			#total_halting_out += traci.edge.getLastStepHaltingNumber(self.outbound_map[edge])
-
 			veh_count    = max(traci.edge.getLastStepVehicleNumber(edge), 1)
 			waiting_mean = traci.edge.getWaitingTime(edge) / veh_count
 			waiting_norm = min(waiting_mean / self.max_waiting_time, 1.0)
 			waiting_values.append(waiting_norm)
 
+			total_throughput += traci.edge.getLastStepVehicleNumber(self.outbound_map[edge])
+
 		total_queue   = sum(queue_values)
 		total_waiting = sum(waiting_values)
-
-		#total_pressure = max(0, total_queue - total_halting_out)
 
 		balance_bonus = 0.0
 		'''
@@ -297,11 +295,13 @@ class MyEnv(gym.Env):
 
 		long_green_penalty = -max(0, self.time_since_last_change - 60) * 0.005
 
-		#collisions = len(traci.simulation.getCollisions())
-		#collision_term = 0.01 if collisions == 0 else -collisions * 2.0
-		
-
-		return (ret + balance_bonus)*20 + long_green_penalty  #+ collision_term
+		# collisioni
+		num_collisions = len(traci.simulation.getCollisions())
+		collision_penalty = -100.0 if num_collisions > 0 else 0.0
+		safety_signal = collision_penalty + (total_throughput * 0.03) 
+		#print((ret + balance_bonus)*20, "---", long_green_penalty, "---", safety_signal)
+		if(long_green_penalty != 0): print(long_green_penalty)
+		return (ret + balance_bonus)*20 + long_green_penalty + safety_signal
 
 
 	def _get_energy_penalty(self):

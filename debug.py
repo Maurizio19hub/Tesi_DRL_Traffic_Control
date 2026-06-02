@@ -4,10 +4,10 @@ from stable_baselines3.common.monitor import Monitor
 from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize
 from sumo_env import MyEnv
 
-model = PPO.load("models/correct_time/t19energy-collisions_f2/ppo_semaforo")
+model = PPO.load("models/correct_time/t20energy-collisions_f2/ppo_semaforo")
 
 env = DummyVecEnv([lambda: Monitor(MyEnv())])
-env = VecNormalize.load("models/correct_time/t19energy-collisions_f2/vec_normalize_stats.pkl", env)
+env = VecNormalize.load("models/correct_time/t20energy-collisions_f2/vec_normalize_stats.pkl", env)
 env.training    = False
 env.norm_reward = True
 '''
