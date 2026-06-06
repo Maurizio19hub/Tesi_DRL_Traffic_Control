@@ -10,13 +10,7 @@ env = DummyVecEnv([lambda: Monitor(MyEnv())])
 env = VecNormalize.load("models/correct_time/t20energy-pedwaiting_f2/vec_normalize_stats.pkl", env)
 env.training    = False
 env.norm_reward = True
-'''
-mean_reward, std_reward = evaluate_policy(
-    model,
-    env,
-    n_eval_episodes=1,
-    deterministic=True
-)'''
+
 mean_rew = 0.0
 action_counts = {0: 0, 1: 0}
 for ep in range(1):

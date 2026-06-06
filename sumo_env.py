@@ -5,6 +5,8 @@ from gymnasium import spaces
 import numpy as np
 import subprocess
 
+OBS_SHAPE = 19
+
 class MyEnv(gym.Env):
 	def __init__(self):
 		super().__init__()
@@ -15,7 +17,7 @@ class MyEnv(gym.Env):
 		#Dati presi dall'Enviroment (normalizzati):
 		##Lunghezza code veicoli
 		##Numero di pedoni
-		self.observation_space = spaces.Box(low = 0, high = 1.0, shape=(20,), dtype = np.float32)
+		self.observation_space = spaces.Box(low = 0, high = 1.0, shape=(OBS_SHAPE,), dtype = np.float32)
 
 		#File di configurazione SUMO
 		self.sumo_cfg = "simulazione.sumocfg"
@@ -90,12 +92,12 @@ class MyEnv(gym.Env):
 
 		
 		sumo_cmd = [
-			"sumo-gui", "-c", self.sumo_cfg, # sumo-gui se vogli la modalità grafica
+			"sumo", "-c", self.sumo_cfg, # sumo-gui se vogli la modalità grafica
 			"--seed", str(sumo_seed),
 			"--waiting-time-memory", "1000", # serve per manternere memoria del tempo di attesa del veicolo per 1000s
 			"--no-step-log", "true", # non riempie terminale
-			"--start", "true",  # avvia automaticamente senza premere play (sumo-gui)
-			"--delay", "100",  # 100ms tra ogni step = velocità normal
+			#"--start", "true",  # avvia automaticamente senza premere play (sumo-gui)
+			#"--delay", "100",  # 100ms tra ogni step = velocità normal
 			"--time-to-teleport", "100",
 			"--collision.action", "teleport",
 			"--collision.mingap-factor", "0",
@@ -152,7 +154,7 @@ class MyEnv(gym.Env):
 			print(f"[Step {self.current_step}] Pedoni in giro: {len(traci.person.getIDList())}, in attesa: {ped_waiting}")
 		'''
 		ped_norm = min(ped_waiting / self.max_pedestrians, 1.0)
-		obs.append(ped_norm)
+		#obs.append(ped_norm)
 		#obs.append(ped_norm)
 
 		# ---TEMPO DALL'ULTIMO CAMBIO FASE---
@@ -215,7 +217,7 @@ class MyEnv(gym.Env):
 
 		if self.current_step >= self.max_steps:
 			traci.close()
-			return np.zeros(20, dtype=np.float32), 0.0, True, False, {}
+			return np.zeros(OBS_SHAPE, dtype=np.float32), 0.0, True, False, {}
 
 		obs    = self._get_observation()
 		
