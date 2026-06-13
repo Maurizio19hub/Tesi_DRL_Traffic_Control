@@ -270,11 +270,6 @@ class MyEnv(gym.Env):
 		total_waiting = sum(waiting_values)
 
 		balance_bonus = 0.0
-		'''
-		if all(q < QUEUE_THRESHOLD for q in queue_values):
-			balance_bonus += 0.5
-		if all(w < WAITING_THRESHOLD for w in waiting_values):
-			balance_bonus += 0.2'''
 		
 		for i in range(len(queue_values)):
 			if queue_values[i] > 0.26:
@@ -298,9 +293,12 @@ class MyEnv(gym.Env):
 			print(f"[Step {self.current_step}] Pedoni in giro: {len(traci.person.getIDList())}, in attesa: {ped_waiting}")
 		'''
 		ped_norm = min(ped_waiting / self.max_pedestrians, 1.0)
+
+		# ---REWARD COLLISIONI---
+		num_collisions = len(traci.simulation.getCollisions())
 		
-		#print((total_queue*2.5),"---",(2*total_waiting),"---",(energy_penalty*0.01),"---",(ped_norm * 0.2))
-		current_cost = (total_queue*2.5) + (2*total_waiting) + (energy_penalty*0.01) + (ped_norm * 0.2) #(total_pressure*1.0)
+		#print((total_queue*2.5),"---",(2*total_waiting),"---",(energy_penalty*0.01),"---",(ped_norm * 0.2),"---",(num_collisions * 0.5))
+		current_cost = (total_queue*2.5) + (2*total_waiting) + (energy_penalty*0.01) + (ped_norm * 0.2) + (num_collisions * 0.5)
 		ret = self.last_cost - current_cost
 
 		if self.last_cost == 0: 
@@ -310,10 +308,6 @@ class MyEnv(gym.Env):
 
 		long_green_penalty = -max(0, self.time_since_last_change - 60) * 0.005
 
-		# collisioni
-		num_collisions = len(traci.simulation.getCollisions())
-		collision_penalty = -100.0 if num_collisions > 0 else 0.0
-		safety_signal = collision_penalty + (total_throughput * 0.03) 
 		#print((ret + balance_bonus)*20, "---", long_green_penalty, "---", safety_signal)
 		if(long_green_penalty != 0): print(long_green_penalty)
 		return (ret + balance_bonus)*20 + long_green_penalty # + safety_signal

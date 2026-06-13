@@ -10,10 +10,10 @@ from sumo_env import MyEnv
 import os
 
 # ── Configurazione ────────────────────────────────────────────
-MODEL_PATH  = "models/correct_time/t20energy-collisions_f2/ppo_semaforo"
-STATS_PATH  = "models/correct_time/t20energy-collisions_f2/vec_normalize_stats.pkl"
+MODEL_PATH  = "models/correct_time/t20energy-pedwaiting-collisions_f2/ppo_semaforo"
+STATS_PATH  = "models/correct_time/t20energy-pedwaiting-collisions_f2/vec_normalize_stats.pkl"
 SEEDS       = list(range(0, 100, 5))   # 20 seed fissi
-OUTPUT_DIR  = "results/ppo_collisions"
+OUTPUT_DIR  = "results/ppo_pedwaiting-collisions"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 MAX_SPEED   = 13.89  # m/s
