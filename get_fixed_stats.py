@@ -8,7 +8,7 @@ from sumo_env import MyEnv
 
 # ── Configurazione ────────────────────────────────────────────
 SEEDS      = list(range(0, 100, 5))   # stessi seed del PPO
-OUTPUT_DIR = "results/baseline"
+OUTPUT_DIR = "results/baseline_optimal-phase-f2"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 MAX_SPEED = 13.89
@@ -31,7 +31,7 @@ for seed in SEEDS:
     # Genera pedoni con stesso seed del PPO
     subprocess.run([
         "python", os.path.join(os.environ['SUMO_HOME'], 'tools', 'randomTrips.py'),
-        "-n", "incrocio3.net.xml",
+        "-n", "incrocio3_300mf.net.xml",
         "-e", "3600",
         "-p", "3.0",
         "--persontrips",

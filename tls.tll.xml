@@ -32,7 +32,7 @@
 
 <additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
     <tlLogic id="tls_1" type="static" programID="custom" offset="0">
-        <phase duration="34" state="gGGgrrrgGGgrrrrGrG"/>
+        <phase duration="34" state="gGGgrrrgGGgrrrrGrG"/> <!--34-->
         <phase duration="3"  state="yyyyrrryyyyrrrrrrr"/>
         <phase duration="34" state="rrrrgGgrrrrgGgGrGr"/>
         <phase duration="3"  state="rrrryyyrrrryyyrrrr"/>

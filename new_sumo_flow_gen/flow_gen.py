@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 import csv
 from collections import defaultdict
 from datetime import datetime

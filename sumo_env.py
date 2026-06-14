@@ -5,7 +5,7 @@ from gymnasium import spaces
 import numpy as np
 import subprocess
 
-OBS_SHAPE = 19
+OBS_SHAPE = 20
 
 class MyEnv(gym.Env):
 	def __init__(self):
@@ -154,8 +154,7 @@ class MyEnv(gym.Env):
 			print(f"[Step {self.current_step}] Pedoni in giro: {len(traci.person.getIDList())}, in attesa: {ped_waiting}")
 		'''
 		ped_norm = min(ped_waiting / self.max_pedestrians, 1.0)
-		#obs.append(ped_norm)
-		#obs.append(ped_norm)
+		obs.append(ped_norm)
 
 		# ---TEMPO DALL'ULTIMO CAMBIO FASE---
 		time_norm = min(self.time_since_last_change / self.max_green_duration, 1)
@@ -295,10 +294,10 @@ class MyEnv(gym.Env):
 		ped_norm = min(ped_waiting / self.max_pedestrians, 1.0)
 
 		# ---REWARD COLLISIONI---
-		num_collisions = len(traci.simulation.getCollisions())
+		#num_collisions = len(traci.simulation.getCollisions())
 		
 		#print((total_queue*2.5),"---",(2*total_waiting),"---",(energy_penalty*0.01),"---",(ped_norm * 0.2),"---",(num_collisions * 0.5))
-		current_cost = (total_queue*2.5) + (2*total_waiting) + (energy_penalty*0.01) + (ped_norm * 0.2) + (num_collisions * 0.5)
+		current_cost = (total_queue*2.5) + (2*total_waiting) + (energy_penalty*0.01) + (ped_norm * 0.2) #+ (num_collisions * 0.5)
 		ret = self.last_cost - current_cost
 
 		if self.last_cost == 0: 

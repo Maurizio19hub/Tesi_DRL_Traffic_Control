@@ -6,7 +6,6 @@
         <route edges="est_in sud_out" cost="1" probability="0.0604"/>
         <route edges="est_in nord_out" cost="1" probability="0.2358"/>
         <route edges="est_in ovest_out" cost="1" probability="0.6796"/>
-        <route edges="est_in est_out" cost="1" probability="0.0243"/>
     </routeDistribution>
 
     <flow id="flow_est" begin="0" end="3600" vehsPerHour="570.8" type="carro" route="svolte_est"/>
@@ -15,7 +14,6 @@
         <route edges="ovest_in est_out" cost="1" probability="0.5737"/>
         <route edges="ovest_in sud_out" cost="1" probability="0.2250"/>
         <route edges="ovest_in nord_out" cost="1" probability="0.1845"/>
-        <route edges="ovest_in ovest_out" cost="1" probability="0.0167"/>
     </routeDistribution>
 
     <flow id="flow_ovest" begin="0" end="3600" vehsPerHour="861.8" type="carro" route="svolte_ovest"/>
