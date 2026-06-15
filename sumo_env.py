@@ -92,12 +92,12 @@ class MyEnv(gym.Env):
 
 		
 		sumo_cmd = [
-			"sumo", "-c", self.sumo_cfg, # sumo-gui se vogli la modalità grafica
+			"sumo-gui", "-c", self.sumo_cfg, # sumo-gui se vogli la modalità grafica
 			"--seed", str(sumo_seed),
 			"--waiting-time-memory", "1000", # serve per manternere memoria del tempo di attesa del veicolo per 1000s
 			"--no-step-log", "true", # non riempie terminale
-			#"--start", "true",  # avvia automaticamente senza premere play (sumo-gui)
-			#"--delay", "100",  # 100ms tra ogni step = velocità normal
+			"--start", "true",  # avvia automaticamente senza premere play (sumo-gui)
+			"--delay", "100",  # 100ms tra ogni step = velocità normal
 			"--time-to-teleport", "100",
 			"--collision.action", "teleport",
 			"--collision.mingap-factor", "0",

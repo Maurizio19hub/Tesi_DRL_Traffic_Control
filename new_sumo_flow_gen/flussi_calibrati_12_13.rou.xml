@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <routes>
-    <vType id="carro" acceleration="2.6" deceleration="4.5" length="5" maxSpeed="13.89" sigma="0.1"/>
+    <vType id="carro" acceleration="2.6" deceleration="4.5" length="5" maxSpeed="13.89"/>
 
     <routeDistribution id="svolte_est">
         <route edges="est_in sud_out" cost="1" probability="0.0929"/>
@@ -30,7 +30,6 @@
         <route edges="sud_in est_out" cost="1" probability="0.1117"/>
         <route edges="sud_in nord_out" cost="1" probability="0.5853"/>
         <route edges="sud_in ovest_out" cost="1" probability="0.2671"/>
-
     </routeDistribution>
 
     <flow id="flow_sud" begin="0" end="3600" vehsPerHour="308.5" type="carro" route="svolte_sud"/>

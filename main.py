@@ -6,7 +6,7 @@ from stable_baselines3.common.callbacks import CheckpointCallback
 from sumo_env import MyEnv
 
 if __name__ == "__main__":
-    save_dir = "models/correct_time/t20energy-pedwaiting_f3"
+    save_dir = "models/correct_time/t20energy-pedwaiting_f1"
     os.makedirs(save_dir, exist_ok=True)
 
     env = MyEnv()
