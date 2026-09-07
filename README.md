@@ -114,7 +114,7 @@ L'obiettivo è ridurre i tempi di attesa, le code, le emissioni e migliorare il 
 ├── 📄 README.md                                           # Documentazione progetto
 └── 📄 requirements.txt                                    # Dipendenze Python
 
-
+```
 ---
 
 ## 📦 Dipendenze
