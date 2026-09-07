@@ -17,102 +17,102 @@ L'obiettivo è ridurre i tempi di attesa, le code, le emissioni e migliorare il 
 
 ## 📁 Struttura della cartella
 
-📁 DRL-Traffic-Intersection/                            # Root del progetto
+```text
+📁 DRL-Traffic-Intersection/                               # Root del progetto
 │
-├── 📁 csv_generati/                                    # Dati di valutazione (generati da generate_csv.py)
-│   ├── 📁 baseline/                                    # Baseline standard (semaforo non ottimizzato)
-│   │   ├── 📄 metrics_baseline.csv                     # Metriche aggregate su 20 seed
-│   │   └── 📄 timeseries_baseline.npz                  # Serie temporali step-by-step
-│   ├── 📁 baseline_opt/                                # Baseline ottimizzata (semaforo con fasi ottimizzate)
+├── 📁 csv_generati/                                       # Dati di valutazione (generati da generate_csv.py)
+│   ├── 📁 baseline/                                       # Baseline standard (semaforo non ottimizzato)
+│   │   ├── 📄 metrics_baseline.csv                        # Metriche aggregate su 20 seed
+│   │   └── 📄 timeseries_baseline.npz                     # Serie temporali step-by-step
+│   ├── 📁 baseline_opt/                                   # Baseline ottimizzata (semaforo con fasi ottimizzate)
 │   │   ├── 📄 metrics_baseline.csv
 │   │   └── 📄 timeseries_baseline.npz
-│   ├── 📁 PPO/                                         # Modello PPO energy + pedwaiting (senza collisioni)
-│   │   ├── 📄 metrics_ppo.csv                          # Metriche del modello PPO
-│   │   └── 📄 timeseries_ppo.npz                       # Serie temporali del modello PPO
-│   └── 📁 PPO-collisions/                              # Modello PPO energy + pedwaiting + collisioni
+│   ├── 📁 PPO/                                            # Modello PPO energy + pedwaiting (senza collisioni)
+│   │   ├── 📄 metrics_ppo.csv                             # Metriche del modello PPO
+│   │   └── 📄 timeseries_ppo.npz                          # Serie temporali del modello PPO
+│   └── 📁 PPO-collisions/                                 # Modello PPO energy + pedwaiting + collisioni
 │       ├── 📄 metrics_ppo.csv
 │       └── 📄 timeseries_ppo.npz
 │
-├── 📁 models/                                          # Modelli addestrati e checkpoint
-│   ├── 📁 t20energy-collisions_f2/                     # Modello con solo energia + collisioni
-│   │   ├── 📄 monitor.csv                              # Log reward per episodio
-│   │   ├── 📄 ppo_semaforo.zip                         # Modello PPO finale
-│   │   ├── 📄 training_curve.png                       # Curva di training
-│   │   └── 📄 vec_normalize_stats.pkl                  # Statistiche normalizzazione
-│   ├── 📁 t20energy-pedwaiting-collisions_f2/          # Modello energia + pedoni + collisioni
+├── 📁 models/                                              # Modelli addestrati e checkpoint
+│   ├── 📁 t20energy-collisions_f2/                        # Modello con solo energia + collisioni
+│   │   ├── 📄 monitor.csv                                 # Log reward per episodio
+│   │   ├── 📄 ppo_semaforo.zip                            # Modello PPO finale
+│   │   ├── 📄 training_curve.png                          # Curva di training
+│   │   └── 📄 vec_normalize_stats.pkl                     # Statistiche normalizzazione
+│   ├── 📁 t20energy-pedwaiting-collisions_f2/             # Modello energia + pedoni + collisioni
 │   │   ├── 📄 monitor.csv
 │   │   ├── 📄 ppo_semaforo.zip
 │   │   ├── 📄 training_curve.png
 │   │   └── 📄 vec_normalize_stats.pkl
-│   ├── 📁 t20energy-pedwaiting_f2/                     # Modello energia + pedoni (usato per reward)
+│   ├── 📁 t20energy-pedwaiting_f2/                        # Modello energia + pedoni (usato per reward)
 │   │   ├── 📄 monitor.csv
 │   │   ├── 📄 ppo_semaforo.zip
 │   │   ├── 📄 training_curve.png
 │   │   └── 📄 vec_normalize_stats.pkl
-│   └── 📁 t20energy-pedwaiting_f2_trstats/             # Modello con metriche fisiche durante training
-│       ├── 📄 monitor.csv                              
-│       ├── 📄 ppo_semaforo.zip                        
-│       ├── 📄 training_physical_metrics.csv            # Metriche fisiche (code, CO2, etc.) per episodio
-│       ├── 📄 vec_normalize_stats.pkl                 
-│       └── 📄 ppo_checkpoint_*_steps.zip               # 145 checkpoint salvati (da 3.6k a 1M steps)
+│   └── 📁 t20energy-pedwaiting_f2_trstats/                # Modello con metriche fisiche durante training
+│       ├── 📄 monitor.csv                                 
+│       ├── 📄 ppo_semaforo.zip                            
+│       ├── 📄 training_physical_metrics.csv               # Metriche fisiche (code, CO2, etc.) per episodio
+│       ├── 📄 vec_normalize_stats.pkl                     
+│       └── 📄 ppo_checkpoint_*_steps.zip                  # 145 checkpoint salvati (da 3.6k a 1M steps)
 │
-├── 📁 new_sumo_flow_gen/                               # Generazione flussi veicolari calibrati
-│   ├── 📄 flow_gen.py                                  # Script per generare flussi
-│   ├── 📄 flussi_calibrati_12_13.rou.xml               # File flussi generato per ora 12-13
-│   ├── 📄 approaches.csv                               # Approcci stradali (TOMTOM)
-│   ├── 📄 turn_ratios.csv                              # Rapporti di svolta (TOMTOM)
-│   └── 📄 2026_05_09_11_16_20_definition.csv           # Definizione flussi (TOMTOM)
+├── 📁 new_sumo_flow_gen/                                  # Generazione flussi veicolari calibrati
+│   ├── 📄 flow_gen.py                                     # Script per generare flussi
+│   ├── 📄 flussi_calibrati_12_13.rou.xml                  # File flussi generato per ora 12-13
+│   ├── 📄 approaches.csv                                  # Approcci stradali (TOMTOM)
+│   ├── 📄 turn_ratios.csv                                 # Rapporti di svolta (TOMTOM)
+│   └── 📄 2026_05_09_11_16_20_definition.csv              # Definizione flussi (TOMTOM)
 │
-├── 📁 risultati_finali/                                # Output finale dei grafici
-│   ├── 📁 PPO_energy_pedwaiting/                       # Grafici per modello energy + pedwaiting
-│   │   ├── 📁 training/                                # Metriche fisiche durante training
-│   │   │   └── 📄 training_metrics_trend.png           # Andamento metriche (media mobile 20 ep)
-│   │   ├── 📁 reward/                                  # Curva di reward
-│   │   │   └── 📄 training_reward.png                  # Reward + media mobile 10 ep
-│   │   ├── 📁 confronto_PPO_baseline/                  # Confronto con baseline standard
-│   │   │   ├── 📄 bar_comparison_all.png               # Barre media ± std per tutte le metriche
-│   │   │   ├── 📄 boxplot_comparison_all.png           # Boxplot distribuzione su seed
-│   │   │   ├── 📄 violin_comparison_all.png            # Violin plot distribuzione
-│   │   │   ├── 📄 timeseries_comparison.png            # Serie temporali (media ± std)
-│   │   │   ├── 📄 improvement_summary.png              # Barre orizzontali miglioramenti
-│   │   │   ├── 📄 final_summary_table.png              # Tabella riassuntiva come immagine
-│   │   │   ├── 📄 final_summary_table.csv              # Tabella in formato CSV
-│   │   │   ├── 📄 final_summary_table.tex              # Tabella in formato LaTeX
-│   │   │   ├── 📄 improvement_summary.csv              # Dati miglioramenti percentuali
-│   │   │   └── 📄 final_summary_table_compact.csv      # Tabella compatta CSV (media ± std)
-│   │   └── 📁 confronto_PPO_baseline-opt/              # Confronto con baseline ottimizzata
+├── 📁 risultati_finali/                                   # Output finale dei grafici
+│   ├── 📁 PPO_energy_pedwaiting/                          # Grafici per modello energy + pedwaiting
+│   │   ├── 📁 training/                                   # Metriche fisiche durante training
+│   │   │   └── 📄 training_metrics_trend.png              # Andamento metriche (media mobile 20 ep)
+│   │   ├── 📁 reward/                                     # Curva di reward
+│   │   │   └── 📄 training_reward.png                     # Reward + media mobile 10 ep
+│   │   ├── 📁 confronto_PPO_baseline/                     # Confronto con baseline standard
+│   │   │   ├── 📄 bar_comparison_all.png                  # Barre media ± std per tutte le metriche
+│   │   │   ├── 📄 boxplot_comparison_all.png              # Boxplot distribuzione su seed
+│   │   │   ├── 📄 violin_comparison_all.png               # Violin plot distribuzione
+│   │   │   ├── 📄 timeseries_comparison.png               # Serie temporali (media ± std)
+│   │   │   ├── 📄 improvement_summary.png                 # Barre orizzontali miglioramenti
+│   │   │   ├── 📄 final_summary_table.png                 # Tabella riassuntiva come immagine
+│   │   │   ├── 📄 final_summary_table.csv                 # Tabella in formato CSV
+│   │   │   ├── 📄 final_summary_table.tex                 # Tabella in formato LaTeX
+│   │   │   ├── 📄 improvement_summary.csv                 # Dati miglioramenti percentuali
+│   │   │   └── 📄 final_summary_table_compact.csv         # Tabella compatta CSV (media ± std)
+│   │   └── 📁 confronto_PPO_baseline-opt/                 # Confronto con baseline ottimizzata
 │   │       └── (stessi file della cartella sopra)
 │   │
-│   └── 📁 PPO_energy_pedwaiting_collisions/            # Grafici per modello energy + pedwaiting + collisioni
-│       ├── 📁 reward/                                  # Curva di reward
+│   └── 📁 PPO_energy_pedwaiting_collisions/               # Grafici per modello energy + pedwaiting + collisioni
+│       ├── 📁 reward/                                     # Curva di reward
 │       │   └── 📄 training_reward.png
-│       ├── 📁 confronto_PPO_baseline/                  # Confronto con baseline standard
+│       ├── 📁 confronto_PPO_baseline/                     # Confronto con baseline standard
 │       │   └── (stessi file della cartella sopra)
-│       └── 📁 confronto_PPO_baseline-opt/              # Confronto con baseline ottimizzata
+│       └── 📁 confronto_PPO_baseline-opt/                 # Confronto con baseline ottimizzata
 │           └── (stessi file della cartella sopra)
 │
-├── 📁 video_simulazione/                               # Video delle simulazioni
-│   ├── 📄 video_simulazione_baseline-opt.mp4           # Video baseline ottimizzata
-│   └── 📄 video_simulazione_PPO.mp4                    # Video con agente PPO
+├── 📁 video_simulazione/                                  # Video delle simulazioni
+│   ├── 📄 video_simulazione_baseline-opt.mp4              # Video baseline ottimizzata
+│   └── 📄 video_simulazione_PPO.mp4                       # Video con agente PPO
 │
 ├── 📄 generazione_grafici_finali.py                    # Script unico per generare TUTTI i grafici finali
-├── 📄 generate_csv.py                                  # Genera CSV e .npz per baseline e PPO (valutazione)
-├── 📄 sumo_env.py                                      # Ambiente Gym per SUMO (senza collisioni)
-├── 📄 sumo_env_collisions.py                           # Ambiente Gym per SUMO (con collisioni)
-├── 📄 main.py                                          # Script principale training PPO
-├── 📄 test.py                                          # Script di test ambiente SUMO
-├── 📄 debug.py                                         # Script di simulazione con modello addestrato
-├── 📄 baseline_diff.py                                 # Script di simulazione per baseline
+├── 📄 generate_csv.py                                     # Genera CSV e .npz per baseline e PPO (valutazione)
+├── 📄 sumo_env.py                                         # Ambiente Gym per SUMO (senza collisioni)
+├── 📄 sumo_env_collisions.py                              # Ambiente Gym per SUMO (con collisioni)
+├── 📄 main.py                                             # Script principale training PPO
+├── 📄 test.py                                             # Script di test ambiente SUMO
+├── 📄 debug.py                                            # Script di simulazione con modello addestrato
+├── 📄 baseline_diff.py                                    # Script di simulazione per baseline
 │
-├── 📄 incrocio3_300mf.net.xml                          # Rete stradale SUMO
-├── 📄 simulazione.sumocfg                              # Configurazione simulazione SUMO
-├── 📄 tls.tll.xml                                      # Configurazione semaforo
-├── 📄 trips.trips.xml                                  # Viaggi generati
-├── 📄 pedoni.rou.xml                                   # File pedoni generato (output randomTrips)
+├── 📄 incrocio3_300mf.net.xml                             # Rete stradale SUMO
+├── 📄 simulazione.sumocfg                                 # Configurazione simulazione SUMO
+├── 📄 tls.tll.xml                                         # Configurazione semaforo
+├── 📄 trips.trips.xml                                     # Viaggi generati
+├── 📄 pedoni.rou.xml                                      # File pedoni generato (output randomTrips)
 │
-├── 📄 README.md                                        # Documentazione progetto
-└── 📄 requirements.txt                                 # Dipendenze Python
-
+├── 📄 README.md                                           # Documentazione progetto
+└── 📄 requirements.txt                                    # Dipendenze Python
 
 
 ---
