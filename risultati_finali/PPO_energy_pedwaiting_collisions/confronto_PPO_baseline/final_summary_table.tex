@@ -1,0 +1,24 @@
+\begin{table}[ht]
+\centering
+\caption{Confronto delle metriche tra Baseline e PPO, media $\pm$ std su 20 seed.}
+\label{tab:final_comparison}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Metrica} & \textbf{Baseline} & \textbf{PPO} & \textbf{$\Delta\%$ Miglioramento} \\
+\midrule
+Tempo medio di attesa veicoli (s) & 8.88 $\pm$ 1.07 & 4.66 $\pm$ 0.82 & +47.5\% \\
+Lunghezza media code (m) & 24.30 $\pm$ 5.05 & 13.25 $\pm$ 2.87 & +45.5\% \\
+Lunghezza massima code (m) & 174.75 $\pm$ 28.72 & 99.00 $\pm$ 22.92 & +43.3\% \\
+Velocità media (m/s) & 4.68 $\pm$ 0.66 & 6.66 $\pm$ 0.62 & +42.1\% \\
+Veicoli arrivati (n°) & 1583.40 $\pm$ 16.44 & 1618.75 $\pm$ 11.58 & +2.2\% \\
+Numero medio pedoni in attesa (n°) & 2.08 $\pm$ 0.10 & 1.89 $\pm$ 0.23 & +9.4\% \\
+Emissioni CO2 totali (g) & 253247.66 $\pm$ 28214.34 & 191225.74 $\pm$ 17716.23 & +24.5\% \\
+Emissioni NOx totali (g) & 91.27 $\pm$ 11.08 & 67.14 $\pm$ 6.71 & +26.4\% \\
+Emissioni PMx totali (g) & 9.92 $\pm$ 0.13 & 10.08 $\pm$ 0.02 & -1.6\% \\
+Consumo carburante (g) & 82100.16 $\pm$ 9146.91 & 61993.07 $\pm$ 5743.46 & +24.5\% \\
+Collisioni totali (n°) & 4.80 $\pm$ 3.53 & 7.85 $\pm$ 3.66 & -63.5\% \\
+Teleport totali (n°) & 1.75 $\pm$ 1.77 & 2.95 $\pm$ 1.82 & -68.6\% \\
+Cambi fase semaforica (n°) & 194.00 $\pm$ 0.00 & 273.65 $\pm$ 15.62 & -41.1\% \\
+\bottomrule
+\end{tabular}
+\end{table}

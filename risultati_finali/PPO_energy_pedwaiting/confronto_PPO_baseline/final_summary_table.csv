@@ -1,0 +1,14 @@
+Metrica,Unità,Baseline (media),Baseline (std),PPO (media),PPO (std),Δ% PPO vs Baseline
+Tempo medio di attesa veicoli,s,8.875,1.069,4.315,1.188,51.4
+Lunghezza media code,m,24.299,5.046,12.536,4.773,48.4
+Lunghezza massima code,m,174.75,28.722,98.5,35.582,43.6
+Velocità media,m/s,4.685,0.661,6.799,0.899,45.1
+Veicoli arrivati,n°,1583.4,16.443,1614.1,10.988,1.9
+Numero medio pedoni in attesa,n°,2.083,0.102,1.567,0.132,24.8
+Emissioni CO2 totali,g,253247.66,28214.342,187322.045,30179.436,26.0
+Emissioni NOx totali,g,91.269,11.076,65.691,11.505,28.0
+Emissioni PMx totali,g,9.921,0.126,10.07,0.036,-1.5
+Consumo carburante,g,82100.156,9146.911,60727.524,9783.939,26.0
+Collisioni totali,n°,4.8,3.533,5.15,3.689,-7.3
+Teleport totali,n°,1.75,1.773,2.1,1.651,-20.0
+Cambi fase semaforica,n°,194.0,0.0,293.9,17.281,-51.5
